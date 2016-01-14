@@ -1,12 +1,14 @@
 
 package org.usfirst.frc.team4795.robot;
 
+import org.usfirst.frc.team4795.robot.commands.DriveForward;
+import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team4795.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4795.robot.subsystems.ExampleSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,19 +19,19 @@ import org.usfirst.frc.team4795.robot.subsystems.ExampleSubsystem;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
-
+	public static Drivetrain drivetrain;
     Command autonomousCommand;
+    
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	drivetrain = new Drivetrain();
 		oi = new OI();
         // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand();
     }
 	
 	public void disabledPeriodic() {
@@ -38,7 +40,8 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        autonomousCommand = new DriveForward(3);
+    	autonomousCommand.start();
     }
 
     /**
@@ -54,6 +57,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        drivetrain.startPercentMode();
     }
 
     /**
@@ -69,6 +73,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        drivetrain.log();
     }
     
     /**
