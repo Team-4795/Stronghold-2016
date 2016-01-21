@@ -24,17 +24,14 @@ public class Drivetrain extends Subsystem {
 	private Mode mode;
 
 	public Drivetrain() {
-
 		leftMotor = new CANJaguar(RobotMap.LEFT_MOTOR.value);
 		rightMotor = new CANJaguar(RobotMap.RIGHT_MOTOR.value);
 
-		leftMotor.configNeutralMode(CANJaguar.NeutralMode.Brake);
-		rightMotor.configNeutralMode(CANJaguar.NeutralMode.Brake);
-
+		leftMotor.configNeutralMode(CANJaguar.NeutralMode.Coast);
+		rightMotor.configNeutralMode(CANJaguar.NeutralMode.Coast);
 	}
 
 	public void startPositionMode(double p, double i, double d) {
-
 		mode = Mode.POSITION;
 
 		leftMotor.disableControl();
@@ -48,7 +45,6 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void startSpeedMode(double p, double i, double d) {
-
 		mode = Mode.SPEED;
 
 		leftMotor.disableControl();
@@ -62,7 +58,6 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void startPercentMode() {
-
 		mode = Mode.PERCENT;
 
 		leftMotor.disableControl();
@@ -81,7 +76,6 @@ public class Drivetrain extends Subsystem {
 	 * second
 	 */
 	public void drive(double left, double right) {
-
 		if (mode == Mode.PERCENT) {
 
 			if (left > 0) {
@@ -115,11 +109,9 @@ public class Drivetrain extends Subsystem {
 
 		leftMotor.set(left);
 		rightMotor.set(right);
-
 	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
 		setDefaultCommand(new TankDrive());
 	}
 
@@ -130,4 +122,5 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("Left position", leftMotor.getPosition());
 		SmartDashboard.putNumber("Right position", rightMotor.getPosition());
 	}
+	
 }
