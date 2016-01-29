@@ -1,126 +1,89 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.RobotMap;
-import org.usfirst.frc.team4795.robot.commands.TankDrive;
 
-import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drivetrain extends Subsystem {
 
-	public static final double MAX_THROTTLE = 1.0;
-	public static final double WHEEL_DIAM = 6.0;
-	public static final double MAX_LATERAL_SPEED = 10; // feet per second
-	public static final double ANGULAR_CONVERSION_FACTOR = 1 / (2 * Math.PI * WHEEL_DIAM);
-
-	private static enum Mode {
-		SPEED, POSITION, PERCENT
-	}
-
-	private final CANJaguar leftMotor;
-	private final CANJaguar rightMotor;
-
-	private Mode mode;
+	private static final double WHEEL_DIAMETER_IN = 6.0;
+	private static final int ENCODER_TICKS_PER_REV = 2048;
+	private static final double ENCODER_TICKS_PER_FT = (ENCODER_TICKS_PER_REV * 48) / (Math.PI * WHEEL_DIAMETER_IN);
+	
+	private final CANTalon leftMotor1;
+	private final CANTalon leftMotor2;
+	private final CANTalon rightMotor1;
+	private final CANTalon rightMotor2;
 
 	public Drivetrain() {
-		leftMotor = new CANJaguar(RobotMap.LEFT_MOTOR.value);
-		rightMotor = new CANJaguar(RobotMap.RIGHT_MOTOR.value);
-
-		leftMotor.configNeutralMode(CANJaguar.NeutralMode.Coast);
-		rightMotor.configNeutralMode(CANJaguar.NeutralMode.Coast);
+		leftMotor1 = new CANTalon(RobotMap.LEFT_MOTOR_1.value);
+		leftMotor2 = new CANTalon(RobotMap.LEFT_MOTOR_2.value);
+		rightMotor1 = new CANTalon(RobotMap.RIGHT_MOTOR_1.value);
+		rightMotor2 = new CANTalon(RobotMap.RIGHT_MOTOR_2.value);
+		
+		disableControl();
+		
+		leftMotor2.changeControlMode(TalonControlMode.Follower);
+		rightMotor2.changeControlMode(TalonControlMode.Follower);
+		
+		leftMotor2.set(RobotMap.LEFT_MOTOR_1.value);
+		rightMotor2.set(RobotMap.RIGHT_MOTOR_1.value);
+		
+		leftMotor1.reverseOutput(false);
+		leftMotor2.reverseOutput(true);
+		rightMotor1.reverseOutput(false);
+		rightMotor2.reverseOutput(true);
+		
+		enableControl();
 	}
-
-	public void startPositionMode(double p, double i, double d) {
-		mode = Mode.POSITION;
-
-		leftMotor.disableControl();
-		rightMotor.enableControl();
-
-		leftMotor.setPositionMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
-		rightMotor.setPositionMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
-
-		leftMotor.enableControl(0);
-		rightMotor.enableControl(0);
+	
+	public void disableControl() {
+		leftMotor1.disableControl();
+		leftMotor2.disableControl();
+		rightMotor1.disableControl();
+		rightMotor2.disableControl();
 	}
-
-	public void startSpeedMode(double p, double i, double d) {
-		mode = Mode.SPEED;
-
-		leftMotor.disableControl();
-		rightMotor.enableControl();
-
-		leftMotor.setSpeedMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
-		rightMotor.setSpeedMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
-
-		leftMotor.enableControl(0);
-		rightMotor.enableControl(0);
+	
+	public void enableControl() {
+		leftMotor1.enableControl();
+		leftMotor2.enableControl();
+		rightMotor1.enableControl();
+		rightMotor2.enableControl();
 	}
-
-	public void startPercentMode() {
-		mode = Mode.PERCENT;
-
-		leftMotor.disableControl();
-		rightMotor.disableControl();
-
-		leftMotor.setPercentMode(CANJaguar.kQuadEncoder, 2048);
-		rightMotor.setPercentMode(CANJaguar.kQuadEncoder, 2048);
-
-		leftMotor.enableControl();
-		rightMotor.enableControl();
+	
+	public void changeControlMode(TalonControlMode mode) {
+		disableControl();
+		leftMotor1.changeControlMode(mode);
+		rightMotor1.changeControlMode(mode);
+		enableControl();
 	}
-
-	/*
-	 * If percent mode, expects from -1 to 1 If position mode, expects position
-	 * in lateral feet If speed mode, expects position in lateral feet per
-	 * second
-	 */
+	
+	public void setRaw(double left, double right) {
+		leftMotor1.set(left);
+		rightMotor1.set(right);
+	}
+	
+	public void setPID(double P, double I, double D) {
+		leftMotor1.setPID(P, I, D);
+		rightMotor1.setPID(P, I, D);
+	}
+	
 	public void drive(double left, double right) {
-		if (mode == Mode.PERCENT) {
-
-			if (left > 0) {
-				left = Math.max(left, MAX_THROTTLE);
-			} else {
-				left = Math.min(left, -MAX_THROTTLE);
-			}
-
-			if (right > 0) {
-				right = Math.max(left, MAX_THROTTLE);
-			} else {
-				right = Math.min(left, -MAX_THROTTLE);
-			}
-
-		} else if (mode == Mode.SPEED) {
-			if (left > 0) {
-				left = Math.max(left, MAX_LATERAL_SPEED);
-			} else {
-				left = Math.min(left, -MAX_LATERAL_SPEED);
-			}
-
-			if (right > 0) {
-				right = Math.max(left, MAX_LATERAL_SPEED);
-			} else {
-				right = Math.min(left, -MAX_LATERAL_SPEED);
-			}
-
-			left *= ANGULAR_CONVERSION_FACTOR;
-			right *= ANGULAR_CONVERSION_FACTOR;
-		}
-
-		leftMotor.set(left);
-		rightMotor.set(right);
+		setRaw(0.0, 0.0);
+		changeControlMode(TalonControlMode.PercentVbus);
+		setRaw(left, right);
+	}
+	
+	public void drive(double distance, double P, double I, double D) {
+		setRaw(0.0, 0.0);
+		changeControlMode(TalonControlMode.Position);
+		double distanceTicks = distance * ENCODER_TICKS_PER_FT;
+		setRaw(leftMotor1.getPosition()+distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
 
-	public void initDefaultCommand() {
-		setDefaultCommand(new TankDrive());
-	}
-
-	public void log() {
-		SmartDashboard.putNumber("Left speed", leftMotor.getSpeed());
-		SmartDashboard.putNumber("Right speed", rightMotor.getSpeed());
-
-		SmartDashboard.putNumber("Left position", leftMotor.getPosition());
-		SmartDashboard.putNumber("Right position", rightMotor.getPosition());
-	}
+	@Override
+	protected void initDefaultCommand() {}
 	
 }
