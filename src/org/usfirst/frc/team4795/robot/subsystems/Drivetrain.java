@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
 
-	private static final double WHEEL_DIAMETER_IN = 6.0;
-	private static final int ENCODER_TICKS_PER_REV = 2048;
-	private static final double ENCODER_TICKS_PER_FT = (ENCODER_TICKS_PER_REV * 48) / (Math.PI * WHEEL_DIAMETER_IN);
+	public static final double WHEEL_DIAMETER_IN = 6.0;
+	public static final int ENCODER_TICKS_PER_REV = 2048;
+	public static final double ENCODER_TICKS_PER_FT = (ENCODER_TICKS_PER_REV * 48) / (Math.PI * WHEEL_DIAMETER_IN);
+	public static final double WHEEL_SEPARATION_IN = 26.797;
 	
 	private final CANTalon leftMotor1;
 	private final CANTalon leftMotor2;
@@ -81,6 +82,25 @@ public class Drivetrain extends Subsystem {
 		changeControlMode(TalonControlMode.Position);
 		double distanceTicks = distance * ENCODER_TICKS_PER_FT;
 		setRaw(leftMotor1.getPosition()+distanceTicks, rightMotor1.getPosition()+distanceTicks);
+	}
+	
+	public void rotateRadians(double angle, double P, double I, double D) {
+		setRaw(0.0, 0.0);
+		changeControlMode(TalonControlMode.Position);
+		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
+		setRaw(leftMotor1.getPosition()-distanceTicks, rightMotor1.getPosition()+distanceTicks);
+	}
+	
+	public void rotateDegrees(double angle, double P, double I, double D) {
+		rotateRadians(Math.toRadians(angle), P, I, D);
+	}
+	
+	public double getLeftError() {
+		return leftMotor1.getError();
+	}
+	
+	public double getRightError() {
+		return rightMotor1.getError();
 	}
 
 	@Override
