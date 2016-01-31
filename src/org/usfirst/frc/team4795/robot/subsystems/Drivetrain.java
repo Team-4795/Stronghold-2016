@@ -33,9 +33,9 @@ public class Drivetrain extends Subsystem {
 		rightMotor2.set(RobotMap.RIGHT_MOTOR_1.value);
 		
 		leftMotor1.reverseOutput(false);
-		leftMotor2.reverseOutput(true);
+		leftMotor2.reverseOutput(false);
 		rightMotor1.reverseOutput(false);
-		rightMotor2.reverseOutput(true);
+		rightMotor2.reverseOutput(false);
 		
 		enableControl();
 	}
