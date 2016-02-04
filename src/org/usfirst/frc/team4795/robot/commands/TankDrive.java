@@ -16,7 +16,7 @@ public class TankDrive extends Command {
     }
 
     protected void execute() {
-    	Robot.drivetrain.setRaw(Robot.oi.LEFTJOY.getY(), Robot.oi.RIGHTJOY.getY());
+    	Robot.drivetrain.setRaw(-Robot.oi.LEFTJOY.getY(), -Robot.oi.RIGHTJOY.getY());
     }
 
     protected boolean isFinished() {return false;}
