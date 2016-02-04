@@ -17,6 +17,8 @@ public class Drivetrain extends Subsystem {
 	private final CANTalon leftMotor2;
 	private final CANTalon rightMotor1;
 	private final CANTalon rightMotor2;
+	
+	private boolean closedLoopMode = false;
 
 	public Drivetrain() {
 		leftMotor1 = new CANTalon(RobotMap.LEFT_MOTOR_1.value);
@@ -25,12 +27,6 @@ public class Drivetrain extends Subsystem {
 		rightMotor2 = new CANTalon(RobotMap.RIGHT_MOTOR_2.value);
 		
 		disableControl();
-		
-		leftMotor2.changeControlMode(TalonControlMode.Follower);
-		rightMotor2.changeControlMode(TalonControlMode.Follower);
-		
-		leftMotor2.set(RobotMap.LEFT_MOTOR_1.value);
-		rightMotor2.set(RobotMap.RIGHT_MOTOR_1.value);
 		
 		leftMotor1.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
 		rightMotor1.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
@@ -48,8 +44,6 @@ public class Drivetrain extends Subsystem {
 		leftMotor2.configMaxOutputVoltage(12);
 		rightMotor1.configMaxOutputVoltage(12);
 		rightMotor2.configMaxOutputVoltage(12);
-		
-		enableControl();
 	}
 	
 	public void disableControl() {
@@ -67,15 +61,30 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void changeControlMode(TalonControlMode mode) {
-		disableControl();
+	    disableControl();
 		leftMotor1.changeControlMode(mode);
 		rightMotor1.changeControlMode(mode);
+		if(mode != TalonControlMode.Position && mode != TalonControlMode.Speed) {
+		  leftMotor2.changeControlMode(mode);
+		  rightMotor2.changeControlMode(mode);
+		  closedLoopMode = false;
+		} else {
+		  leftMotor2.changeControlMode(TalonControlMode.Follower);
+		  leftMotor2.set(RobotMap.LEFT_MOTOR_1.value);
+		  rightMotor2.changeControlMode(TalonControlMode.Follower);
+		  rightMotor2.set(RobotMap.RIGHT_MOTOR_1.value);
+		  closedLoopMode = true;
+		}
 		enableControl();
 	}
 	
 	public void setRaw(double left, double right) {
 		leftMotor1.set(left);
 		rightMotor1.set(right);
+		if(!closedLoopMode) {
+		  leftMotor2.set(left);
+		  rightMotor1.set(right);
+		}
 	}
 	
 	public void setPID(double P, double I, double D) {
@@ -84,13 +93,11 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void drive(double left, double right) {
-		setRaw(0.0, 0.0);
 		changeControlMode(TalonControlMode.PercentVbus);
 		setRaw(left, right);
 	}
 	
 	public void drive(double distance, double P, double I, double D) {
-		setRaw(0.0, 0.0);
 		changeControlMode(TalonControlMode.Position);
 		setPID(P, I, D);
 		double distanceTicks = distance * ENCODER_TICKS_PER_FT;
@@ -98,7 +105,6 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void rotateRadians(double angle, double P, double I, double D) {
-		setRaw(0.0, 0.0);
 		changeControlMode(TalonControlMode.Position);
 		setPID(P, I, D);
 		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
