@@ -32,10 +32,22 @@ public class Drivetrain extends Subsystem {
 		leftMotor2.set(RobotMap.LEFT_MOTOR_1.value);
 		rightMotor2.set(RobotMap.RIGHT_MOTOR_1.value);
 		
-		leftMotor1.reverseOutput(false);
-		leftMotor2.reverseOutput(false);
-		rightMotor1.reverseOutput(false);
-		rightMotor2.reverseOutput(false);
+		leftMotor1.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
+		rightMotor1.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
+		
+		leftMotor1.ConfigFwdLimitSwitchNormallyOpen(true);
+		leftMotor1.ConfigRevLimitSwitchNormallyOpen(true);
+		leftMotor2.ConfigFwdLimitSwitchNormallyOpen(true);
+		leftMotor2.ConfigRevLimitSwitchNormallyOpen(true);
+		rightMotor1.ConfigFwdLimitSwitchNormallyOpen(true);
+		rightMotor1.ConfigRevLimitSwitchNormallyOpen(true);
+		rightMotor2.ConfigFwdLimitSwitchNormallyOpen(true);
+		rightMotor2.ConfigRevLimitSwitchNormallyOpen(true);
+		
+		leftMotor1.configMaxOutputVoltage(12);
+		leftMotor2.configMaxOutputVoltage(12);
+		rightMotor1.configMaxOutputVoltage(12);
+		rightMotor2.configMaxOutputVoltage(12);
 		
 		enableControl();
 	}
