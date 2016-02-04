@@ -104,16 +104,23 @@ public class Drivetrain extends Subsystem {
 		setRaw(leftMotor1.getPosition()+distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
 	
-	public void rotateRadians(double angle, double P, double I, double D) {
+	public void rotateRadiansEnc(double angle, double P, double I, double D) {
 		changeControlMode(TalonControlMode.Position);
 		setPID(P, I, D);
 		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
 		setRaw(leftMotor1.getPosition()-distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
 	
+	public void rotateRadiansGyro(double angle, double P, double I, double D) {
+		changeControlMode(TalonControlMode.Position);
+		setPID(P, I, D);
+		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
+		setRaw(leftMotor1.getPosition()-distanceTicks, rightMotor1.getPosition()+distanceTicks);
+	}
 	public void rotateDegrees(double angle, double P, double I, double D) {
 		rotateRadians(Math.toRadians(angle), P, I, D);
 	}
+	
 	
 	public double getLeftError() {
 		return leftMotor1.getError();
