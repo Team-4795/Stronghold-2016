@@ -80,6 +80,7 @@ public class Drivetrain extends Subsystem {
 	public void drive(double distance, double P, double I, double D) {
 		setRaw(0.0, 0.0);
 		changeControlMode(TalonControlMode.Position);
+		setPID(P, I, D);
 		double distanceTicks = distance * ENCODER_TICKS_PER_FT;
 		setRaw(leftMotor1.getPosition()+distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
@@ -87,6 +88,7 @@ public class Drivetrain extends Subsystem {
 	public void rotateRadians(double angle, double P, double I, double D) {
 		setRaw(0.0, 0.0);
 		changeControlMode(TalonControlMode.Position);
+		setPID(P, I, D);
 		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
 		setRaw(leftMotor1.getPosition()-distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
