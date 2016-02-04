@@ -83,7 +83,7 @@ public class Drivetrain extends Subsystem {
 		rightMotor1.set(right);
 		if(!closedLoopMode) {
 		  leftMotor2.set(left);
-		  rightMotor1.set(right);
+		  rightMotor2.set(right);
 		}
 	}
 	
