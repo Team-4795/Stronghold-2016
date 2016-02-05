@@ -31,6 +31,9 @@ public class Drivetrain extends Subsystem {
 		leftMotor1.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
 		rightMotor1.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
 		
+		leftMotor1.reverseSensor(true);
+		rightMotor1.reverseSensor(false);
+		
 		leftMotor1.ConfigFwdLimitSwitchNormallyOpen(true);
 		leftMotor1.ConfigRevLimitSwitchNormallyOpen(true);
 		leftMotor2.ConfigFwdLimitSwitchNormallyOpen(true);
@@ -87,8 +90,10 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 	
-	public void setPID(double P, double I, double D) {
+	public void setFPID(double F, double P, double I, double D) {
+	    leftMotor1.setF(F);
 		leftMotor1.setPID(P, I, D);
+		rightMotor1.setF(F);
 		rightMotor1.setPID(P, I, D);
 	}
 	
@@ -97,22 +102,22 @@ public class Drivetrain extends Subsystem {
 		setRaw(left, right);
 	}
 	
-	public void drive(double distance, double P, double I, double D) {
+	public void drive(double distance, double F, double P, double I, double D) {
 		changeControlMode(TalonControlMode.Position);
-		setPID(P, I, D);
+		setFPID(F, P, I, D);
 		double distanceTicks = distance * ENCODER_TICKS_PER_FT;
 		setRaw(leftMotor1.getPosition()+distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
 	
-	public void rotateRadians(double angle, double P, double I, double D) {
+	public void rotateRadians(double angle, double F, double P, double I, double D) {
 		changeControlMode(TalonControlMode.Position);
-		setPID(P, I, D);
+		setFPID(F, P, I, D);
 		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
 		setRaw(leftMotor1.getPosition()-distanceTicks, rightMotor1.getPosition()+distanceTicks);
 	}
 	
-	public void rotateDegrees(double angle, double P, double I, double D) {
-		rotateRadians(Math.toRadians(angle), P, I, D);
+	public void rotateDegrees(double angle, double F, double P, double I, double D) {
+		rotateRadians(Math.toRadians(angle), F, P, I, D);
 	}
 	
 	public double getLeftError() {
@@ -121,6 +126,30 @@ public class Drivetrain extends Subsystem {
 	
 	public double getRightError() {
 		return rightMotor1.getError();
+	}
+	
+	public double getLeftEncoderPos() {
+	  return leftMotor1.getEncPosition();
+	}
+	
+	public double getRightEncoderPos() {
+	  return rightMotor1.getEncPosition();
+	}
+	
+	public double getLeftEncoderVel() {
+	  return leftMotor1.getEncVelocity();
+	}
+	
+	public double getRightEncoderVel() {
+	  return rightMotor1.getEncVelocity();
+	}
+	
+	public double getLeftSpeed() {
+	  return leftMotor1.getSpeed();
+	}
+	
+	public double getRightSpeed() {
+	  return rightMotor1.getSpeed();
 	}
 
 	@Override

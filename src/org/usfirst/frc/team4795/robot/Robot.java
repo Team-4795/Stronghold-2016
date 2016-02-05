@@ -7,6 +7,7 @@ import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
@@ -29,7 +30,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit() {
-		Scheduler.getInstance().add(new DriveForward(5.0));
+	    Scheduler.getInstance().add(new DriveForward(5.0));
 	}
 	
 	@Override

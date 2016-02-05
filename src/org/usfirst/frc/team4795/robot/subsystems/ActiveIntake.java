@@ -4,8 +4,6 @@ import org.usfirst.frc.team4795.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.CANJaguar.JaguarControlMode;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ActiveIntake extends Subsystem {

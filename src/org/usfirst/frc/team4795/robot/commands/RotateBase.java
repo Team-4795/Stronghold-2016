@@ -15,7 +15,7 @@ public class RotateBase extends Command {
 	
 	@Override
 	protected void initialize() {
-		Robot.drivetrain.rotateDegrees(degrees, 5, 0, 0);
+		Robot.drivetrain.rotateDegrees(degrees, 0.0, 0.0, 0.0, 0.0);
 	}
 
 	@Override
