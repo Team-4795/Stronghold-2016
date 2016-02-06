@@ -1,13 +1,11 @@
 package org.usfirst.frc.team4795.robot;
 
-import org.usfirst.frc.team4795.robot.commands.DriveForward;
 import org.usfirst.frc.team4795.robot.commands.TankDrive;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
@@ -16,12 +14,15 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
-		oi = new OI();
 		drivetrain = new Drivetrain();
+		drivetrain.init();
+		oi = new OI();
 	}
 	
 	@Override
-	public void disabledInit() {}
+	public void disabledInit() {
+		Robot.drivetrain.calibrateGyroscope();
+	}
 	
 	@Override
 	public void disabledPeriodic() {
@@ -29,9 +30,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	@Override
-	public void autonomousInit() {
-	    Scheduler.getInstance().add(new DriveForward(5.0));
-	}
+	public void autonomousInit() {}
 	
 	@Override
 	public void autonomousPeriodic() {

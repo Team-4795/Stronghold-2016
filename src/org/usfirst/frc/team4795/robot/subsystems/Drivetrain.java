@@ -2,25 +2,40 @@ package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends Subsystem implements PIDOutput {
 
 	public static final double WHEEL_DIAMETER_IN = 6.0;
 	public static final int ENCODER_TICKS_PER_REV = 2048;
 	public static final double ENCODER_TICKS_PER_FT = (ENCODER_TICKS_PER_REV * 48) / (Math.PI * WHEEL_DIAMETER_IN);
-	public static final double WHEEL_SEPARATION_IN = 26.797;
 	
 	private final CANTalon leftMotor1;
 	private final CANTalon leftMotor2;
 	private final CANTalon rightMotor1;
 	private final CANTalon rightMotor2;
 	
-	private boolean closedLoopMode = false;
+	private final ADXRS450_Gyro gyroscope;
+	private PIDController gyroControl;
 
+	private boolean closedLoopMode = false;
+	private boolean gyroControlMode = false;
+	
 	public Drivetrain() {
+	    gyroscope = new ADXRS450_Gyro() {
+	    	@Override
+	    	public double getAngle() {
+	    		return super.getAngle() % 360.0;
+	    	}
+	    };
+	    gyroscope.setPIDSourceType(PIDSourceType.kDisplacement);
+	    
 		leftMotor1 = new CANTalon(RobotMap.LEFT_MOTOR_1.value);
 		leftMotor2 = new CANTalon(RobotMap.LEFT_MOTOR_2.value);
 		rightMotor1 = new CANTalon(RobotMap.RIGHT_MOTOR_1.value);
@@ -49,6 +64,14 @@ public class Drivetrain extends Subsystem {
 		rightMotor2.configMaxOutputVoltage(12);
 	}
 	
+	public void init() {
+	  gyroControl = new PIDController(0.0, 0.0, 0.0, 0.0, gyroscope, this);
+      gyroControl.setPercentTolerance(1);
+      gyroControl.setOutputRange(-1.0, 1.0);
+      gyroControl.setInputRange(0.0, 360.0);
+      gyroControl.setContinuous(true);
+	}
+	
 	public void disableControl() {
 		leftMotor1.disableControl();
 		leftMotor2.disableControl();
@@ -64,6 +87,10 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void changeControlMode(TalonControlMode mode) {
+	    if(gyroControlMode) {
+	      gyroControl.reset();
+	      gyroControlMode = false;
+	    }
 	    disableControl();
 		leftMotor1.changeControlMode(mode);
 		rightMotor1.changeControlMode(mode);
@@ -90,6 +117,14 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 	
+	public void pidWrite(double output) {
+		// XXX using negatives since this is only called by the rotation controller
+		leftMotor1.pidWrite(-output);
+		leftMotor2.pidWrite(-output);
+		rightMotor1.pidWrite(output);
+		rightMotor2.pidWrite(output);
+	}
+	
 	public void setFPID(double F, double P, double I, double D) {
 	    leftMotor1.setF(F);
 		leftMotor1.setPID(P, I, D);
@@ -110,14 +145,15 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void rotateRadians(double angle, double F, double P, double I, double D) {
-		changeControlMode(TalonControlMode.Position);
-		setFPID(F, P, I, D);
-		double distanceTicks = (angle * WHEEL_SEPARATION_IN * ENCODER_TICKS_PER_FT) / 24;
-		setRaw(leftMotor1.getPosition()-distanceTicks, rightMotor1.getPosition()+distanceTicks);
+	  rotateDegrees(Math.toDegrees(angle), F, P, I, D);
 	}
 	
 	public void rotateDegrees(double angle, double F, double P, double I, double D) {
-		rotateRadians(Math.toRadians(angle), F, P, I, D);
+		 changeControlMode(TalonControlMode.PercentVbus);
+		 gyroControl.setPID(P, I, D, F);
+		 gyroControl.setSetpoint(gyroscope.getAngle()+angle);
+		 gyroControl.enable();
+		 gyroControlMode = true;
 	}
 	
 	public double getLeftError() {
@@ -150,6 +186,10 @@ public class Drivetrain extends Subsystem {
 	
 	public double getRightSpeed() {
 	  return rightMotor1.getSpeed();
+	}
+	
+	public void calibrateGyroscope() {
+		gyroscope.calibrate();
 	}
 
 	@Override
