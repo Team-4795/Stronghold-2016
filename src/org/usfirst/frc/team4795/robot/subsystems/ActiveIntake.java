@@ -20,8 +20,8 @@ public class ActiveIntake extends Subsystem {
 		arm.setControlMode(JaguarControlMode.Position.getValue());
 		intake.setControlMode(JaguarControlMode.Speed.getValue());
 		
-		arm.setPositionMode(arm.kQuadEncoder, 2048, 5, 0, 0);
-		intake.setSpeedMode(intake.kQuadEncoder,2048, 5, 0, 0);
+		arm.setPositionMode(CANJaguar.kQuadEncoder, 2048, 5, 0, 0);
+		intake.setSpeedMode(CANJaguar.kQuadEncoder,2048, 5, 0, 0);
 		
 		arm.enableControl();
 		intake.enableControl();
