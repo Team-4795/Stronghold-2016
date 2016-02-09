@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4795.robot;
 
 import org.usfirst.frc.team4795.robot.commands.TankDrive;
+import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
+import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -11,11 +13,15 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
     public static Drivetrain drivetrain;
+    public static ActiveIntake intake;
+    public static Arm arm;
 
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
         drivetrain.init();
+        intake = new ActiveIntake();
+        arm = new Arm();
         oi = new OI();
     }
 

@@ -5,8 +5,7 @@ public enum RobotMap {
     LEFT_MOTOR_2(2),
     RIGHT_MOTOR_1(3),
     RIGHT_MOTOR_2(4),
-    ARM_MOTOR(5),
-    INTAKE_MOTOR(6);
+    ARM_MOTOR(5);
 
     public final int value;
 
