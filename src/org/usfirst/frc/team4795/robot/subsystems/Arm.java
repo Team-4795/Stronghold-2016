@@ -38,5 +38,18 @@ public class Arm extends Subsystem {
     
     @Override
     protected void initDefaultCommand() {}
-
+    
+    public void SetControlMode(int mode){
+    	motor.setControlMode(mode);	
+    }
+    public void set(int value){
+    	motor.set(value);
+    }
+    public boolean getForwardLimit(){
+    	return motor.getForwardLimitOK();
+    }
+    
+    public boolean getBackLimit(){
+    	return motor.getReverseLimitOK();
+    }
 }
