@@ -18,13 +18,13 @@ public class JoystickDrive extends Command {
 
     @Override
     protected void execute() {
-        double leftDrive = Robot.oi.RIGHTJOY.getX() - Robot.oi.RIGHTJOY.getY();
+        double leftDrive = Robot.oi.DRIVER_RIGHTJOY.getX() - Robot.oi.DRIVER_RIGHTJOY.getY();
         leftDrive = Math.max(leftDrive, -1.0);
         leftDrive = Math.min(leftDrive, 1.0);
-        double rightDrive = (-Robot.oi.RIGHTJOY.getX()) - Robot.oi.RIGHTJOY.getY();
+        double rightDrive = (-Robot.oi.DRIVER_RIGHTJOY.getX()) - Robot.oi.DRIVER_RIGHTJOY.getY();
         rightDrive = Math.max(rightDrive, -1.0);
         rightDrive = Math.min(rightDrive, 1.0);
-        double throttle = (1.0 - Robot.oi.LEFTJOY.getThrottle()) / 2.0;
+        double throttle = (1.0 - Robot.oi.DRIVER_LEFTJOY.getThrottle()) / 2.0;
         Robot.drivetrain.setRaw(leftDrive * throttle, rightDrive * throttle);
     }
 

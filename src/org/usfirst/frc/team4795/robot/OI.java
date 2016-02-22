@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class OI {
 
-    public final Joystick LEFTJOY = new Joystick(0);
-    public final Joystick RIGHTJOY = new Joystick(1);
-
+    public final Joystick DRIVER_LEFTJOY = new Joystick(0);
+    public final Joystick DRIVER_RIGHTJOY = new Joystick(1);
+    public final Joystick ARM_GAMEPAD = new Joystick(2);
 }
