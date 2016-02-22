@@ -5,6 +5,7 @@ import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -15,7 +16,8 @@ public class Robot extends IterativeRobot {
     public static Drivetrain drivetrain;
     public static ActiveIntake intake;
     public static Arm arm;
-
+    
+    private CameraServer cameraServer;
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
@@ -23,6 +25,15 @@ public class Robot extends IterativeRobot {
         intake = new ActiveIntake();
         arm = new Arm();
         oi = new OI();
+        
+        try {
+            cameraServer = CameraServer.getInstance();
+            cameraServer.setQuality(10);
+            cameraServer.startAutomaticCapture();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        
     }
 
     @Override
