@@ -23,7 +23,7 @@ public class Drivetrain extends Subsystem implements PIDOutput {
     private final CANTalon rightMotor1;
     private final CANTalon rightMotor2;
 
-    private final ADXRS450_Gyro gyroscope;
+    public final ADXRS450_Gyro gyroscope;
     private PIDController gyroControl;
 
     private boolean closedLoopMode = false;
