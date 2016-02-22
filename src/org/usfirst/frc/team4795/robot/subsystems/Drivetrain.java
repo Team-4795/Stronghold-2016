@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.RobotMap;
+import org.usfirst.frc.team4795.robot.commands.TankDrive;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -195,6 +196,8 @@ public class Drivetrain extends Subsystem implements PIDOutput {
     }
 
     @Override
-    protected void initDefaultCommand() {}
+    protected void initDefaultCommand() {
+        setDefaultCommand(new TankDrive());
+    }
 
 }

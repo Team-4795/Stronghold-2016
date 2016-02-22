@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4795.robot;
 
-import org.usfirst.frc.team4795.robot.commands.TankDrive;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
@@ -55,9 +54,7 @@ public class Robot extends IterativeRobot {
     }
 
     @Override
-    public void teleopInit() {
-        Scheduler.getInstance().add(new TankDrive());
-    }
+    public void teleopInit() {}
 
     @Override
     public void teleopPeriodic() {

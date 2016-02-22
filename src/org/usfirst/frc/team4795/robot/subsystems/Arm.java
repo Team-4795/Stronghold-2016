@@ -1,10 +1,12 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.RobotMap;
+import org.usfirst.frc.team4795.robot.commands.ManualArm;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.CANJaguar.JaguarControlMode;
 import edu.wpi.first.wpilibj.CANJaguar.LimitMode;
+import edu.wpi.first.wpilibj.CANJaguar.NeutralMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
@@ -17,9 +19,12 @@ public class Arm extends Subsystem {
         motor.configEncoderCodesPerRev(497);
         motor.configMaxOutputVoltage(12);
         motor.configLimitMode(LimitMode.SwitchInputsOnly);
+        //motor.setControlMode(JaguarControlMode.Position.getValue());
+        //motor.setPositionMode(CANJaguar.kQuadEncoder, 497, 0.0, 0.0, 0.0);
+        //motor.set(0.0);
         motor.setControlMode(JaguarControlMode.Position.getValue());
-        motor.setPositionMode(CANJaguar.kQuadEncoder, 497, 0.0, 0.0, 0.0);
-        motor.set(0.0);
+        motor.setPercentMode(CANJaguar.kQuadEncoder, 497);
+        motor.configNeutralMode(NeutralMode.Brake);
         motor.enableControl();
     }
     
@@ -37,12 +42,14 @@ public class Arm extends Subsystem {
     }
     
     @Override
-    protected void initDefaultCommand() {}
+    protected void initDefaultCommand() {
+        setDefaultCommand(new ManualArm());
+    }
     
-    public void SetControlMode(int mode){
+    public void setControlMode(int mode){
     	motor.setControlMode(mode);	
     }
-    public void set(int value){
+    public void setRaw(double value) {
     	motor.set(value);
     }
     public boolean getForwardLimit(){
@@ -52,4 +59,5 @@ public class Arm extends Subsystem {
     public boolean getBackLimit(){
     	return motor.getReverseLimitOK();
     }
+    
 }

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
-import org.usfirst.frc.team4795.robot.commands.SpinIntake;
+import org.usfirst.frc.team4795.robot.commands.ManualIntake;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,7 +21,7 @@ public class ActiveIntake extends Subsystem {
     
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new SpinIntake(0.0));
+        setDefaultCommand(new ManualIntake());
     }
 
 }
