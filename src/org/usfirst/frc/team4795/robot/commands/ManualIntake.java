@@ -15,7 +15,7 @@ public class ManualIntake extends Command {
 
     @Override
     protected void execute() {
-        if(Robot.oi.ARM_GAMEPAD.getRawButton(3)) {
+        if((!Robot.intake.getLimit()) && Robot.oi.ARM_GAMEPAD.getRawButton(3)) {
             Robot.intake.spin(0.2);
         } else if(Robot.oi.ARM_GAMEPAD.getRawButton(5)) {
             Robot.intake.spin(-0.2);
