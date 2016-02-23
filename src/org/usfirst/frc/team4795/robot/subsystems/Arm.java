@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.RobotMap;
+import org.usfirst.frc.team4795.robot.commands.HoldArm;
 import org.usfirst.frc.team4795.robot.commands.ManualArm;
 
 import edu.wpi.first.wpilibj.CANJaguar;
@@ -36,6 +37,11 @@ public class Arm extends Subsystem {
         motor.setPID(P, I, D);
     }
     
+    public void startSpeedMode(double p, double i, double d) {
+        motor.disableControl();
+        motor.setSpeedMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
+        motor.enableControl();
+      }
     public void setArmDegrees(double angle, double P, double I, double D) {
         motor.setPID(P, I, D);
         motor.set(angle / 360.0);
@@ -43,7 +49,7 @@ public class Arm extends Subsystem {
     
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new ManualArm());
+        setDefaultCommand(new HoldArm());
     }
     
     public void setControlMode(int mode){
