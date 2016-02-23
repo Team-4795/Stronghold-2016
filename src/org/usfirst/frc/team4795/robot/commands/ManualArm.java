@@ -16,9 +16,9 @@ public class ManualArm extends Command {
     @Override
     protected void execute() {
         double throttle = (1.0 - Robot.oi.DRIVER_RIGHTJOY.getThrottle()) / 2.0;
-        if(Robot.oi.ARM_GAMEPAD.getRawButton(4)) {
+        if(Robot.oi.DRIVER_RIGHTJOY.getRawButton(4)) {
             Robot.arm.setRaw(throttle);
-        } else if(Robot.oi.ARM_GAMEPAD.getRawButton(6)) {
+        } else if(Robot.oi.DRIVER_RIGHTJOY.getRawButton(6)) {
             Robot.arm.setRaw(-throttle);
         } else {
             Robot.arm.setRaw(0.0);
