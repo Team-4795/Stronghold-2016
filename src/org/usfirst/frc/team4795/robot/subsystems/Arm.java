@@ -12,39 +12,39 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
     
-    private final CANJaguar motor;
+    //private final CANJaguar motor;
     
     public Arm() {
-        motor = new CANJaguar(RobotMap.ARM_MOTOR.value);
-        motor.disableControl();
-        motor.configEncoderCodesPerRev(497);
-        motor.configMaxOutputVoltage(12);
-        motor.configLimitMode(LimitMode.SwitchInputsOnly);
+       // motor = new CANJaguar(RobotMap.ARM_MOTOR.value);
+        //motor.disableControl();
+       // motor.configEncoderCodesPerRev(497);
+        //motor.configMaxOutputVoltage(12);
+        //motor.configLimitMode(LimitMode.SwitchInputsOnly);
         //motor.setControlMode(JaguarControlMode.Position.getValue());
         //motor.setPositionMode(CANJaguar.kQuadEncoder, 497, 0.0, 0.0, 0.0);
         //motor.set(0.0);
-        motor.setControlMode(JaguarControlMode.Position.getValue());
-        motor.setPercentMode(CANJaguar.kQuadEncoder, 497);
-        motor.configNeutralMode(NeutralMode.Brake);
-        motor.enableControl();
+        //motor.setControlMode(JaguarControlMode.Position.getValue());
+        //motor.setPercentMode(CANJaguar.kQuadEncoder, 497);
+        //motor.configNeutralMode(NeutralMode.Brake);
+        //motor.enableControl();
     }
     
     public double getArmDegrees() {
-        return motor.getPosition() * 360.0;
+        return 1; //motor.getPosition() * 360.0;
     }
     
     public void setPID(double P, double I, double D) {
-        motor.setPID(P, I, D);
+        //motor.setPID(P, I, D);
     }
     
     public void startSpeedMode(double p, double i, double d) {
-        motor.disableControl();
-        motor.setSpeedMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
-        motor.enableControl();
+        //motor.disableControl();
+        //motor.setSpeedMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
+        //motor.enableControl();
       }
     public void setArmDegrees(double angle, double P, double I, double D) {
-        motor.setPID(P, I, D);
-        motor.set(angle / 360.0);
+        //motor.setPID(P, I, D);
+        //motor.set(angle / 360.0);
     }
     
     @Override
@@ -53,17 +53,17 @@ public class Arm extends Subsystem {
     }
     
     public void setControlMode(int mode){
-    	motor.setControlMode(mode);	
+    	//motor.setControlMode(mode);	
     }
     public void setRaw(double value) {
-    	motor.set(value);
+    	//motor.set(value);
     }
     public boolean getForwardLimit(){
-    	return motor.getForwardLimitOK();
+    	return true;//motor.getForwardLimitOK();
     }
     
     public boolean getBackLimit(){
-    	return motor.getReverseLimitOK();
+    	return true;//motor.getReverseLimitOK();
     }
     
 }
