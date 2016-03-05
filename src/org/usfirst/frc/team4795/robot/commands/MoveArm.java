@@ -5,31 +5,38 @@ import org.usfirst.frc.team4795.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveArm extends Command {
-	private double direction;
-	public MoveArm(double direction){
-		requires(Robot.arm);
-	}
-	
-	@Override
-	protected void initialize() {
-		double throttle = (1.0 - Robot.oi.DRIVER_LEFTJOY.getThrottle()) / 2.0;
-		Robot.arm.setRaw(direction * throttle);
-	}
+    
+    private final double speed;
+    
+    public MoveArm(double speed) {
+        requires(Robot.arm);
+        this.speed = speed;
+    }
 
-	@Override
-	protected void execute() {}
+    @Override
+    protected void initialize() {
+        Robot.arm.startPercentMode();
+    }
 
-	@Override
-	protected boolean isFinished() {return false;}
+    @Override
+    protected void execute() {
+        double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
+        Robot.arm.setRaw(speed * throttle);
+    }
 
-	@Override
-	protected void end() {
-		Robot.arm.setRaw(0);
-	}
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-	@Override
-	protected void interrupted() {
-		Robot.arm.setRaw(0);
-	}
+    @Override
+    protected void end() {
+        Robot.arm.setRaw(0.0);
+    }
+
+    @Override
+    protected void interrupted() {
+        end();
+    }
 
 }

@@ -2,30 +2,28 @@ package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.RobotMap;
 import org.usfirst.frc.team4795.robot.commands.HoldArm;
-import org.usfirst.frc.team4795.robot.commands.ManualArm;
 
-import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.CANJaguar.JaguarControlMode;
-import edu.wpi.first.wpilibj.CANJaguar.LimitMode;
-import edu.wpi.first.wpilibj.CANJaguar.NeutralMode;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
     
-    private final CANJaguar motor;
+    private final CANTalon motor;
     
     public Arm() {
-        motor = new CANJaguar(RobotMap.ARM_MOTOR.value);
+        motor = new CANTalon(RobotMap.ARM_MOTOR.value);
         motor.disableControl();
         motor.configEncoderCodesPerRev(497);
         motor.configMaxOutputVoltage(12);
-        motor.configLimitMode(LimitMode.SwitchInputsOnly);
-        //motor.setControlMode(JaguarControlMode.Position.getValue());
-        //motor.setPositionMode(CANJaguar.kQuadEncoder, 497, 0.0, 0.0, 0.0);
-        //motor.set(0.0);
-        motor.setControlMode(JaguarControlMode.Position.getValue());
-        motor.setPercentMode(CANJaguar.kQuadEncoder, 497);
-        motor.configNeutralMode(NeutralMode.Brake);
+        motor.ConfigFwdLimitSwitchNormallyOpen(true);
+        motor.ConfigRevLimitSwitchNormallyOpen(true);
+        motor.enableLimitSwitch(true, true);
+        motor.changeControlMode(TalonControlMode.PercentVbus);
+        //motor.changeControlMode(TalonControlMode.Position);
+        //motor.setPID(0.0, 0.0, 0.0);
+        motor.enableBrakeMode(true);
+        motor.setVoltageRampRate(12.0);
         motor.enableControl();
     }
     
@@ -37,14 +35,53 @@ public class Arm extends Subsystem {
         motor.setPID(P, I, D);
     }
     
-    public void startSpeedMode(double p, double i, double d) {
+    /*
+     * Optimal PID Values
+     * P = 0.500
+     * I = 0.005
+     * D = 0.100
+     * Position Values
+     * Full Back = 0.0
+     * 90 Degrees ~ -0.634
+     * 180 Degrees ~ -1.264
+     * Floor ~ -1.528 or -pi/2
+     */
+    public void startSpeedMode() {
         motor.disableControl();
-        motor.setSpeedMode(CANJaguar.kQuadEncoder, 2048, p, i, d);
+        motor.changeControlMode(TalonControlMode.Speed);
         motor.enableControl();
-      }
+    }
+    
+    public void startPositionMode() {
+        motor.disableControl();
+        motor.changeControlMode(TalonControlMode.Position);
+        motor.enableControl();
+    }
+    
+    public void startPercentMode() {
+        motor.disableControl();
+        motor.changeControlMode(TalonControlMode.PercentVbus);
+        motor.setVoltageRampRate(12.0);
+        motor.enableControl();
+    }
+    
+    public void setClosedLoopRampRate(double rampRate) {
+        motor.setVoltageRampRate(rampRate);
+    }
+    
+    public void resetEncPosition() {
+        motor.setEncPosition(0);
+    }
+    
+    public double getPosition() {
+        return motor.getPosition();
+    }
+    
     public void setArmDegrees(double angle, double P, double I, double D) {
+        startPositionMode();
         motor.setPID(P, I, D);
-        motor.set(angle / 360.0);
+        //motor.set(angle / 360.0);
+        motor.set(angle);
     }
     
     @Override
@@ -59,11 +96,11 @@ public class Arm extends Subsystem {
     	motor.set(value);
     }
     public boolean getForwardLimit(){
-    	return motor.getForwardLimitOK();
+    	return motor.isFwdLimitSwitchClosed();
     }
     
     public boolean getBackLimit(){
-    	return motor.getReverseLimitOK();
+    	return motor.isRevLimitSwitchClosed();
     }
     
 }

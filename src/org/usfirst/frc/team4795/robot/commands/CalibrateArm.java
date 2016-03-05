@@ -7,36 +7,39 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateArm extends Command {
 	
+    private boolean finished;
+    
 	public CalibrateArm() {
 		requires(Robot.arm);
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.arm.setControlMode(JaguarControlMode.Speed.getValue());
-		Robot.arm.setRaw(1);
+	    Robot.arm.startPercentMode();
+        Robot.arm.setRaw(0.2);
 	}
 
 	@Override
 	protected void execute() {
-		if(!Robot.arm.getForwardLimit()) {
-			
-		}
+	    if(Robot.arm.getForwardLimit()) {
+	        Robot.arm.resetEncPosition();
+	        finished = true;
+	    }
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return finished;
 	}
 
 	@Override
 	protected void end() {
-		Robot.arm.setControlMode(JaguarControlMode.Position.getValue());
+		Robot.arm.setRaw(0.0);
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.arm.setControlMode(JaguarControlMode.Position.getValue());
+	    end();
 	}
 
 }

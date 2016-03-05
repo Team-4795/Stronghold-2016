@@ -1,18 +1,18 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
-import org.usfirst.frc.team4795.robot.commands.ManualIntake;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ActiveIntake extends Subsystem {
     
-    private final VictorSP intake;
+    //private final VictorSP intake;
+    private final Talon intake;
     private final DigitalInput limitSwitch;
 
     public ActiveIntake() {
-        intake = new VictorSP(0);
+        //intake = new VictorSP(0);
+        intake = new Talon(0);
         limitSwitch = new DigitalInput(0);
     }
 
@@ -27,8 +27,6 @@ public class ActiveIntake extends Subsystem {
     }
     
     @Override
-    protected void initDefaultCommand() {
-        setDefaultCommand(new ManualIntake());
-    }
+    protected void initDefaultCommand() {}
 
 }

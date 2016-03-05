@@ -5,41 +5,34 @@ import org.usfirst.frc.team4795.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class HoldArm extends Command {
+    
+    public HoldArm() {
+        requires(Robot.arm);
+    }
 
-	public HoldArm()
-	{
-		requires(Robot.arm);
-	}
-	
-	@Override
-	protected void initialize() {
-		// begin controlling the speed of the elevator through the encoder
-	    // XXX random PID values?
-	    Robot.arm.startSpeedMode(-0.5, -0.05, 0);
-	    Robot.arm.setRaw(0.001);
-	}
+    @Override
+    protected void initialize() {
+        Robot.arm.startSpeedMode();
+        Robot.arm.setPID(0.500, 0.005, 0.100);
+        Robot.arm.setRaw(0.0001);
+    }
 
-	@Override
-	protected void execute() {
-		
-	}
+    @Override
+    protected void execute() {}
 
-	@Override
-	protected boolean isFinished() {
-		
-		return false;
-	}
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-	@Override
-	protected void end() {
-		
+    @Override
+    protected void end() {
+        Robot.arm.setRaw(0.0);
+    }
 
-	}
-
-	@Override
-	protected void interrupted() {
-		
-
-	}
+    @Override
+    protected void interrupted() {
+        end();
+    }
 
 }

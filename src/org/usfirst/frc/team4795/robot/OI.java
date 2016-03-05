@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4795.robot;
 
+import org.usfirst.frc.team4795.robot.commands.HoldArm;
 import org.usfirst.frc.team4795.robot.commands.MoveArm;
+import org.usfirst.frc.team4795.robot.commands.SetArm;
 import org.usfirst.frc.team4795.robot.commands.SpinIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -8,18 +10,19 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 
-    public final Joystick DRIVER_LEFTJOY = new Joystick(0);
-    public final Joystick DRIVER_RIGHTJOY = new Joystick(1);
+    public final Joystick LEFT_JOY = new Joystick(0);
+    public final Joystick RIGHT_JOY = new Joystick(1);
     
-    public final JoystickButton ARM_IN = new JoystickButton(DRIVER_RIGHTJOY, 5);
-    public final JoystickButton ARM_OUT = new JoystickButton(DRIVER_RIGHTJOY, 3);;
-    public final JoystickButton ARM_UP = new JoystickButton(DRIVER_RIGHTJOY, 6);;
-    public final JoystickButton ARM_DOWN = new JoystickButton(DRIVER_RIGHTJOY, 4);;
     public OI() {
-    	ARM_IN.whileHeld(new SpinIntake(1));
-    	ARM_OUT.whileHeld(new SpinIntake(-1));
-    	ARM_UP.whileHeld(new MoveArm(1));
-    	ARM_UP.whileHeld(new MoveArm(-1));
+    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_IN.value).whileHeld(new SpinIntake(0.2));
+    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_OUT.value).whileHeld(new SpinIntake(-0.2));
+    	JoystickButton ARM_DOWN = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_ARM_DOWN.value);
+    	ARM_DOWN.whileHeld(new MoveArm(1.0));
+    	ARM_DOWN.whenReleased(new HoldArm());
+    	JoystickButton ARM_UP = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_ARM_UP.value);
+    	ARM_UP.whileHeld(new MoveArm(-1.0));
+    	ARM_DOWN.whenReleased(new HoldArm());
+    	new JoystickButton(RIGHT_JOY, 1).whileHeld(new SetArm());
     }
     
 }
