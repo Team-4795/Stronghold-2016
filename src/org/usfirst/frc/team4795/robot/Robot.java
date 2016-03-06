@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4795.robot;
 
 import org.usfirst.frc.team4795.robot.commands.CalibrateArm;
-import org.usfirst.frc.team4795.robot.commands.SetArm;
+import org.usfirst.frc.team4795.robot.commands.ManualArm;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
@@ -20,6 +20,7 @@ public class Robot extends IterativeRobot {
     public static Arm arm;
     
     private CameraServer cameraServer;
+    
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
@@ -60,19 +61,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {}
 
-    /*
-     * P = 0.500
-     * I = 0.002
-     * D = 0.100
-     * ramp rate = 12
-     */
     @Override
     public void teleopPeriodic() {
-        SetArm.P = SmartDashboard.getNumber("P", 0.0);
-        SetArm.I = SmartDashboard.getNumber("I", 0.0);
-        SetArm.D = SmartDashboard.getNumber("D", 0.0);
-        SetArm.rampRate = SmartDashboard.getNumber("Ramp Rate", 0.0);
-        SmartDashboard.putNumber("Position", Robot.arm.getPosition());
         Scheduler.getInstance().run();
     }
 

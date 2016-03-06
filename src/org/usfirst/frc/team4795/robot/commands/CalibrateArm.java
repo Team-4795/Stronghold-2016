@@ -2,7 +2,7 @@ package org.usfirst.frc.team4795.robot.commands;
 
 import org.usfirst.frc.team4795.robot.Robot;
 
-import edu.wpi.first.wpilibj.CANJaguar.JaguarControlMode;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateArm extends Command {
@@ -15,14 +15,14 @@ public class CalibrateArm extends Command {
 	
 	@Override
 	protected void initialize() {
-	    Robot.arm.startPercentMode();
+	    Robot.arm.changeControlMode(TalonControlMode.PercentVbus);
         Robot.arm.setRaw(0.2);
 	}
 
 	@Override
 	protected void execute() {
 	    if(Robot.arm.getForwardLimit()) {
-	        Robot.arm.resetEncPosition();
+	        Robot.arm.zeroPos();
 	        finished = true;
 	    }
 	}

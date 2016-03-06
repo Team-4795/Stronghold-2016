@@ -120,8 +120,7 @@ public class Drivetrain extends Subsystem implements PIDOutput {
     }
 
     public void pidWrite(double output) {
-        // XXX using negatives since this is only called by the rotation
-        // controller
+        // XXX using negatives since this is only called by the rotation controller
         leftMotor1.pidWrite(-output);
         leftMotor2.pidWrite(-output);
         rightMotor1.pidWrite(output);

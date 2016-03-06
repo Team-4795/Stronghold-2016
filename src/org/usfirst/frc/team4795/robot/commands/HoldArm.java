@@ -2,6 +2,7 @@ package org.usfirst.frc.team4795.robot.commands;
 
 import org.usfirst.frc.team4795.robot.Robot;
 
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class HoldArm extends Command {
@@ -12,8 +13,9 @@ public class HoldArm extends Command {
 
     @Override
     protected void initialize() {
-        Robot.arm.startSpeedMode();
+        Robot.arm.changeControlMode(TalonControlMode.Speed);
         Robot.arm.setPID(0.500, 0.005, 0.100);
+        // setting the speed to zero disables the control entirely for some reason
         Robot.arm.setRaw(0.0001);
     }
 

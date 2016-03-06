@@ -9,20 +9,14 @@ public class ManualArm extends Command {
     public ManualArm() {
         requires(Robot.arm);
     }
-
+    
     @Override
     protected void initialize() {}
 
     @Override
     protected void execute() {
         double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
-        if(Robot.oi.RIGHT_JOY.getRawButton(4)) {
-            Robot.arm.setRaw(throttle);
-        } else if(Robot.oi.RIGHT_JOY.getRawButton(6)) {
-            Robot.arm.setRaw(-throttle);
-        } else {
-            Robot.arm.setRaw(0.0);
-        }
+        Robot.arm.setPosRaw(throttle*-1.528, 0.500, 0.002, 0.100);
     }
 
     @Override
@@ -31,9 +25,7 @@ public class ManualArm extends Command {
     }
 
     @Override
-    protected void end() {
-        Robot.arm.setRaw(0.0);
-    }
+    protected void end() {}
 
     @Override
     protected void interrupted() {
