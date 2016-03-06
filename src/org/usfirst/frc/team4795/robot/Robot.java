@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4795.robot;
 
 import org.usfirst.frc.team4795.robot.commands.CalibrateArm;
-import org.usfirst.frc.team4795.robot.commands.ManualArm;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 

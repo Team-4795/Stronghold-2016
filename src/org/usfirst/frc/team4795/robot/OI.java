@@ -1,8 +1,7 @@
 package org.usfirst.frc.team4795.robot;
 
-import org.usfirst.frc.team4795.robot.commands.HoldArm;
-import org.usfirst.frc.team4795.robot.commands.MoveArm;
 import org.usfirst.frc.team4795.robot.commands.ManualArm;
+import org.usfirst.frc.team4795.robot.commands.MoveArm;
 import org.usfirst.frc.team4795.robot.commands.SpinIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
