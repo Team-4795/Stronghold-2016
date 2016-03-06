@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4795.robot.commands;
 
 import org.usfirst.frc.team4795.robot.Robot;
+import org.usfirst.frc.team4795.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,7 +17,7 @@ public class ManualArm extends Command {
     @Override
     protected void execute() {
         double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
-        Robot.arm.setPosRaw(throttle*-1.528, 0.500, 0.002, 0.100);
+        Robot.arm.setPosRaw(throttle*Arm.POS_RAW_FLOOR, Arm.POS_P, Arm.POS_I, Arm.POS_D);
     }
 
     @Override
