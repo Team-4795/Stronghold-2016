@@ -25,7 +25,9 @@ public class ManualArm extends Command {
     @Override
     protected void execute() {
         double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
-        Robot.arm.setPosRaw(throttle*Arm.POS_RAW_FLOOR, Arm.POS_P, Arm.POS_I, Arm.POS_D);
+        Robot.arm.setPosRaw(throttle*Arm.POS_RAW_FLOOR, SmartDashboard.getNumber("P"),
+        												SmartDashboard.getNumber("I"),
+        												SmartDashboard.getNumber("D"));
     }
 
     @Override

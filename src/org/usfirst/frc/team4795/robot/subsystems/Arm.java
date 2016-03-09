@@ -13,17 +13,17 @@ public class Arm extends Subsystem {
     public static final double SPEED_P = 30.0;
     public static final double SPEED_I = 0.005;
     public static final double SPEED_D = 10;
-    public static final double POS_P = 0.5;
-    public static final double POS_I = 0.002;
-    public static final double POS_D = 0.1;
+    public static final double POS_P = 1.75;
+    public static final double POS_I = 0.0005;
+    public static final double POS_D = 20;
     public static final double POS_RAW_90 = -0.634;
     public static final double POS_RAW_180 = -1.264;
     public static final double POS_RAW_FLOOR = -1.528;
     
-    private final CANTalon motor;
+    public final CANTalon motor;
     
     public Arm() {
-        motor = new CANTalon(RobotMap.ARM_MOTOR.value);
+        motor = new CANTalon(RobotMap.ARM_MOTOR.value);	
         motor.disableControl();
         motor.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV);
         motor.configMaxOutputVoltage(12);

@@ -51,6 +51,10 @@ public class Robot extends IterativeRobot {
         if(SmartDashboard.getNumber("Autonomous Time", -1.0) == -1.0) {
             SmartDashboard.putNumber("Autonomous Time", 5.0);
         }
+        SmartDashboard.putNumber("P", arm.POS_P);
+        SmartDashboard.putNumber("I", arm.POS_I);
+        SmartDashboard.putNumber("D", arm.POS_D);
+        
     }
 
     @Override
