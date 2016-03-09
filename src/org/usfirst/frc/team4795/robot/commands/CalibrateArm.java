@@ -16,7 +16,7 @@ public class CalibrateArm extends Command {
 	@Override
 	protected void initialize() {
 	    Robot.arm.changeControlMode(TalonControlMode.PercentVbus);
-        Robot.arm.setRaw(0.2);
+        Robot.arm.setRaw(0.5);
 	}
 
 	@Override

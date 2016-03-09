@@ -16,11 +16,11 @@ public class HoldArm extends Command {
     protected void initialize() {
         Robot.arm.changeControlMode(TalonControlMode.Speed);
         Robot.arm.setPID(Arm.SPEED_P, Arm.SPEED_I, Arm.SPEED_D);
+        
         // setting the speed to zero disables the control entirely for some reason
-        Robot.arm.setRaw(0.0001);
+        Robot.arm.setRaw(0.000000001);
     }
 
-    @Override
     protected void execute() {}
 
     @Override

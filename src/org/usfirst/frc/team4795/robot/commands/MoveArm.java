@@ -22,8 +22,7 @@ public class MoveArm extends Command {
     @Override
     protected void execute() {
         // TODO make this command use speed control
-        double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
-        Robot.arm.setRaw(speed * throttle);
+        Robot.arm.setRaw(speed);
     }
 
     @Override

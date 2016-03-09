@@ -64,6 +64,11 @@ public class Drivetrain extends Subsystem implements PIDOutput {
         leftMotor2.configMaxOutputVoltage(12);
         rightMotor1.configMaxOutputVoltage(12);
         rightMotor2.configMaxOutputVoltage(12);
+        
+        leftMotor1.enableBrakeMode(false);
+        leftMotor2.enableBrakeMode(false);
+        rightMotor1.enableBrakeMode(false);
+        rightMotor2.enableBrakeMode(false);
     }
 
     public void init() {

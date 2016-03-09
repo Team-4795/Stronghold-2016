@@ -15,14 +15,14 @@ public class OI {
     public final Joystick RIGHT_JOY = new Joystick(RobotMap.RIGHT_JOY.value);
     
     public OI() {
-    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_IN.value).whileHeld(new SpinIntake(0.2));
-    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_OUT.value).whileHeld(new SpinIntake(-0.2));
+    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_IN.value).whileHeld(new SpinIntake(0.3));
+    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_OUT.value).whileHeld(new SpinIntake(-0.3));
     	
     	JoystickButton ARM_DOWN = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_ARM_DOWN.value);
-    	ARM_DOWN.whileHeld(new MoveArm(1.0));
+    	ARM_DOWN.whileHeld(new MoveArm(0.5));
     	
     	JoystickButton ARM_UP = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_ARM_UP.value);
-    	ARM_UP.whileHeld(new MoveArm(-1.0));
+    	ARM_UP.whileHeld(new MoveArm(-0.5));
     	
     	new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_THROTTLE_ARM.value).whileHeld(new ManualArm());
     }

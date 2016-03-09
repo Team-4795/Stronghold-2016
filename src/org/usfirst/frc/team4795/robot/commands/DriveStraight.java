@@ -2,36 +2,51 @@ package org.usfirst.frc.team4795.robot.commands;
 
 import org.usfirst.frc.team4795.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command {
-	public double kP;
-	//KP is the proportional scale
-	public DriveStraight(double kp)
-	{
+    
+    private final double time;
+    public static double P;
+    private long endTime;
+    private final double speed;
+    
+    /*
+     * Rock Wall
+     * Speed = 0.5
+     * Time = 3.0
+     * P = 0.05
+     * 
+     * Ramparts
+     * Speed = 0.5
+     * Time = 2.5
+     * P = 0.05
+     * 
+     * Moat
+     * Speed = 0.5
+     * Time = 3.0
+     * P = 0.05
+     */
+	public DriveStraight(double time, double speed) {
 		requires(Robot.drivetrain);
-		kP = kp;
+		this.time = time;
+		this.speed = speed;
 	}
 	
 	@Override
 	protected void initialize() {
-		
-
+	    endTime = ((long) (time * 1000)) + System.currentTimeMillis();
 	}
 
 	@Override
 	protected void execute() {
-		
-		double angle = Robot.drivetrain.gyroscope.getAngle();
-		Robot.drivetrain.drive(-1.0, -angle * kP); 
-		Timer.delay(0.004);
+		double rate = Robot.drivetrain.gyroscope.getRate();
+		Robot.drivetrain.drive(speed, speed + (rate * P));
 	}
 
 	@Override
 	protected boolean isFinished() {
-		
-		return false;
+		return System.currentTimeMillis() >= endTime;
 	}
 
 	@Override
@@ -41,7 +56,7 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void interrupted() {
-		Robot.drivetrain.drive(0,0); 
+	    end();
 	}
 
 }

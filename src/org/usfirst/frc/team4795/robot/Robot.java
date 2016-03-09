@@ -1,14 +1,17 @@
 package org.usfirst.frc.team4795.robot;
 
 import org.usfirst.frc.team4795.robot.commands.CalibrateArm;
+import org.usfirst.frc.team4795.robot.commands.DriveStraight;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -38,7 +41,16 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        Robot.drivetrain.calibrateGyroscope();
+        //Robot.drivetrain.calibrateGyroscope();
+        if(SmartDashboard.getNumber("Autonomous Speed", -1.0) == -1.0) {
+            SmartDashboard.putNumber("Autonomous Speed", 0.25);
+        }
+        if(SmartDashboard.getNumber("Autonomous P", -1.0) == -1.0) {
+            SmartDashboard.putNumber("Autonomous P", 0.0);
+        }
+        if(SmartDashboard.getNumber("Autonomous Time", -1.0) == -1.0) {
+            SmartDashboard.putNumber("Autonomous Time", 5.0);
+        }
     }
 
     @Override
@@ -48,7 +60,14 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new CalibrateArm());
+        double speed = SmartDashboard.getNumber("Autonomous Speed", 0.0);
+        double time = SmartDashboard.getNumber("Autonomous Time", 0.0);
+        DriveStraight.P = SmartDashboard.getNumber("Autonomous P", 0.0);
+        
+        CommandGroup autonomousGroup = new CommandGroup();
+        autonomousGroup.addSequential(new CalibrateArm());
+        //autonomousGroup.addSequential(new DriveStraight(time, speed));
+        Scheduler.getInstance().add(autonomousGroup);
     }
 
     @Override

@@ -7,12 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ManualArm extends Command {
     
+    /*
+     * Optimal Constants
+     * P = 1.75
+     * I = 0.0005
+     * D = 20
+     */
     public ManualArm() {
         requires(Robot.arm);
     }
     
     @Override
-    protected void initialize() {}
+    protected void initialize() {
+        Robot.arm.setRampRate(54);
+    }
 
     @Override
     protected void execute() {
@@ -26,7 +34,9 @@ public class ManualArm extends Command {
     }
 
     @Override
-    protected void end() {}
+    protected void end() {
+        Robot.arm.setRampRate(24);
+    }
 
     @Override
     protected void interrupted() {

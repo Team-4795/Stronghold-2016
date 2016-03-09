@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Arm extends Subsystem {
     
     public static final int ENCODER_TICKS_PER_REV = 497;
-    public static final double SPEED_P = 0.5;
+    public static final double SPEED_P = 30.0;
     public static final double SPEED_I = 0.005;
-    public static final double SPEED_D = 0.1;
+    public static final double SPEED_D = 10;
     public static final double POS_P = 0.5;
     public static final double POS_I = 0.002;
     public static final double POS_D = 0.1;
@@ -31,12 +31,16 @@ public class Arm extends Subsystem {
         motor.ConfigRevLimitSwitchNormallyOpen(true);
         motor.enableLimitSwitch(true, true);
         motor.enableBrakeMode(true);
-        motor.setVoltageRampRate(12.0);
+        motor.setVoltageRampRate(24.0);
         motor.enableControl();
     }
     
     public void setPID(double P, double I, double D) {
         motor.setPID(P, I, D);
+    }
+    
+    public void setRampRate(double rampRate) {
+        motor.setVoltageRampRate(rampRate);
     }
     
     public void zeroPos() {
@@ -73,7 +77,7 @@ public class Arm extends Subsystem {
     	return motor.isFwdLimitSwitchClosed();
     }
     
-    public boolean getBackLimit() {
+    public boolean getReverseLimit() {
     	return motor.isRevLimitSwitchClosed();
     }
     
