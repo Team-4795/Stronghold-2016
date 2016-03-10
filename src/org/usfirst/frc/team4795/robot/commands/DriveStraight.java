@@ -12,9 +12,19 @@ public class DriveStraight extends Command {
     private final double speed;
     
     /*
+     * Low Bar
+     * Speed = 0.4
+     * Time = 2.0
+     * P = 0.05
+     * 
      * Rock Wall
      * Speed = 0.5
      * Time = 3.0
+     * P = 0.05
+     * 
+     * Rough Terrain
+     * Speed = 0.4
+     * Time = 2.0
      * P = 0.05
      * 
      * Ramparts
@@ -26,6 +36,8 @@ public class DriveStraight extends Command {
      * Speed = 0.5
      * Time = 3.0
      * P = 0.05
+     * 
+     * Nothing
      */
 	public DriveStraight(double time, double speed) {
 		requires(Robot.drivetrain);

@@ -10,12 +10,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Arm extends Subsystem {
     
     public static final int ENCODER_TICKS_PER_REV = 497;
-    public static final double SPEED_P = 30.0;
-    public static final double SPEED_I = 0.005;
-    public static final double SPEED_D = 10;
+    public static final double HOLD_P = 30.0;
+    public static final double HOLD_I = 0.005;
+    public static final double HOLD_D = 10;
+    public static final double SPEED_P = 1;
+    public static final double SPEED_I = 0.01;
+    public static final double SPEED_D = 10.0;
+    public static final double SPEED_F = 1;
+    
     public static final double POS_P = 1.75;
     public static final double POS_I = 0.0005;
     public static final double POS_D = 20;
+
     public static final double POS_RAW_90 = -0.634;
     public static final double POS_RAW_180 = -1.264;
     public static final double POS_RAW_FLOOR = -1.528;
@@ -37,6 +43,10 @@ public class Arm extends Subsystem {
     
     public void setPID(double P, double I, double D) {
         motor.setPID(P, I, D);
+    }
+    public void setPID(double P, double I, double D, double F) {
+    	motor.setPID(P, I, D);
+    	motor.setF(F);
     }
     
     public void setRampRate(double rampRate) {

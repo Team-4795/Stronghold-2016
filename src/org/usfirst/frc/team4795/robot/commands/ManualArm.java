@@ -4,6 +4,7 @@ import org.usfirst.frc.team4795.robot.Robot;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualArm extends Command {
     
@@ -25,9 +26,10 @@ public class ManualArm extends Command {
     @Override
     protected void execute() {
         double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
-        Robot.arm.setPosRaw(throttle*Arm.POS_RAW_FLOOR, SmartDashboard.getNumber("P"),
-        												SmartDashboard.getNumber("I"),
-        												SmartDashboard.getNumber("D"));
+        Robot.arm.setPosRaw(throttle*Arm.POS_RAW_FLOOR, Robot.arm.POS_P,
+        												Robot.arm.POS_I,
+        												Robot.arm.POS_D);
+
     }
 
     @Override

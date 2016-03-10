@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4795.robot;
 
+import org.usfirst.frc.team4795.robot.commands.Autonomous;
 import org.usfirst.frc.team4795.robot.commands.CalibrateArm;
 import org.usfirst.frc.team4795.robot.commands.DriveStraight;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
@@ -8,13 +9,21 @@ import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
+	Command autonomousCommand;
+	SendableChooser autoChooser;
+	
+	
+	
+	
     public static OI oi;
     public static Drivetrain drivetrain;
     public static ActiveIntake intake;
@@ -33,28 +42,27 @@ public class Robot extends IterativeRobot {
         try {
             cameraServer = CameraServer.getInstance();
             cameraServer.setQuality(10);
-            cameraServer.startAutomaticCapture();
+            cameraServer.startAutomaticCapture("cam0");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        autoChooser = new SendableChooser();
+    	autoChooser.addDefault("Do Nothing", new Autonomous(0, 0));
+    	autoChooser.addObject("Low Bar", new Autonomous(2.0, 0.4));
+    	autoChooser.addObject("Rough Terrain", new Autonomous(2.0, 0.4));
+    	autoChooser.addObject("Rock Wall", new Autonomous(3.0, 0.5));
+    	autoChooser.addObject("Ramparts", new Autonomous(2.5, 0.5));
+    	autoChooser.addObject("Moat", new Autonomous(3.0, 0.5));
+    	SmartDashboard.putData("Autonomous Chooser", autoChooser);
+    	
     }
 
     @Override
     public void disabledInit() {
+        SmartDashboard.putNumber("Speed", 0.5);
         //Robot.drivetrain.calibrateGyroscope();
-        if(SmartDashboard.getNumber("Autonomous Speed", -1.0) == -1.0) {
-            SmartDashboard.putNumber("Autonomous Speed", 0.25);
-        }
-        if(SmartDashboard.getNumber("Autonomous P", -1.0) == -1.0) {
-            SmartDashboard.putNumber("Autonomous P", 0.0);
-        }
-        if(SmartDashboard.getNumber("Autonomous Time", -1.0) == -1.0) {
-            SmartDashboard.putNumber("Autonomous Time", 5.0);
-        }
-        SmartDashboard.putNumber("P", arm.POS_P);
-        SmartDashboard.putNumber("I", arm.POS_I);
-        SmartDashboard.putNumber("D", arm.POS_D);
-        
+ 
     }
 
     @Override
@@ -64,14 +72,10 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        double speed = SmartDashboard.getNumber("Autonomous Speed", 0.0);
-        double time = SmartDashboard.getNumber("Autonomous Time", 0.0);
-        DriveStraight.P = SmartDashboard.getNumber("Autonomous P", 0.0);
+
         
-        CommandGroup autonomousGroup = new CommandGroup();
-        autonomousGroup.addSequential(new CalibrateArm());
-        //autonomousGroup.addSequential(new DriveStraight(time, speed));
-        Scheduler.getInstance().add(autonomousGroup);
+        autonomousCommand = (CommandGroup) autoChooser.getSelected();
+        Scheduler.getInstance().add(autonomousCommand);
     }
 
     @Override
@@ -84,6 +88,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
+
         Scheduler.getInstance().run();
     }
 

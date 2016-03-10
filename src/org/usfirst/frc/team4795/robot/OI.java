@@ -6,6 +6,7 @@ import org.usfirst.frc.team4795.robot.commands.SpinIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI {
     
@@ -15,14 +16,14 @@ public class OI {
     public final Joystick RIGHT_JOY = new Joystick(RobotMap.RIGHT_JOY.value);
     
     public OI() {
-    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_IN.value).whileHeld(new SpinIntake(0.3));
-    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_OUT.value).whileHeld(new SpinIntake(-0.3));
+    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_IN.value).whileHeld(new SpinIntake(0.4));
+    	new JoystickButton(LEFT_JOY, RobotMap.BUTTON_INTAKE_OUT.value).whileHeld(new SpinIntake(-0.4));
     	
     	JoystickButton ARM_DOWN = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_ARM_DOWN.value);
-    	ARM_DOWN.whileHeld(new MoveArm(0.5));
+    	ARM_DOWN.whileHeld(new MoveArm(45));
     	
     	JoystickButton ARM_UP = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_ARM_UP.value);
-    	ARM_UP.whileHeld(new MoveArm(-0.5));
+    	ARM_UP.whileHeld(new MoveArm(-45));
     	
     	new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_THROTTLE_ARM.value).whileHeld(new ManualArm());
     }
