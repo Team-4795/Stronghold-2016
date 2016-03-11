@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4795.robot;
 
 import org.usfirst.frc.team4795.robot.commands.Autonomous;
-import org.usfirst.frc.team4795.robot.commands.CalibrateArm;
-import org.usfirst.frc.team4795.robot.commands.DriveStraight;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
@@ -88,7 +86,9 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
-
+    	SmartDashboard.putNumber("Lever position", oi.MANIPULATOR.getRawAxis(0));
+    	SmartDashboard.putNumber("Arm position", arm.getPosRaw());
+    	
         Scheduler.getInstance().run();
     }
 

@@ -5,7 +5,6 @@ import org.usfirst.frc.team4795.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HoldArm extends Command {
     
@@ -16,7 +15,7 @@ public class HoldArm extends Command {
     @Override
     protected void initialize() {
         Robot.arm.changeControlMode(TalonControlMode.Speed);
-        Robot.arm.setPID(Robot.arm.HOLD_P, Robot.arm.HOLD_I, Robot.arm.HOLD_D);
+        Robot.arm.setPID(Arm.HOLD_P,Arm.HOLD_I, Arm.HOLD_D);
         
         // setting the speed to zero disables the control entirely for some reason
         Robot.arm.setRaw(0.0);

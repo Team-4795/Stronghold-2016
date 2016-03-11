@@ -24,11 +24,14 @@ public class ManualArm extends Command {
     }
 
     @Override
+    /*
+     * Arm position: -1 	-> 0
+     * 				0.402	-> -1.283
+     */
     protected void execute() {
-        double throttle = (1.0 - Robot.oi.RIGHT_JOY.getThrottle()) / 2.0;
-        Robot.arm.setPosRaw(throttle*Arm.POS_RAW_FLOOR, Robot.arm.POS_P,
-        												Robot.arm.POS_I,
-        												Robot.arm.POS_D);
+        double throttle = (1.0 + Robot.oi.MANIPULATOR.getRawAxis(0)) * (-1.283)/(0.346+1.0);
+        SmartDashboard.putNumber("Setpoint", throttle);
+        Robot.arm.setPosRaw(throttle, Arm.POS_P, Arm.POS_I, Arm.POS_D);
 
     }
 

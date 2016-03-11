@@ -35,6 +35,7 @@ public class CalibrateArm extends Command {
 	@Override
 	protected void end() {
 		Robot.arm.setRaw(0.0);
+		finished = false;
 	}
 
 	@Override
