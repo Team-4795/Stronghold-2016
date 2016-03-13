@@ -47,11 +47,11 @@ public class Robot extends IterativeRobot {
         
         autoChooser = new SendableChooser();
     	autoChooser.addDefault("Do Nothing", new Autonomous(0, 0));
-    	autoChooser.addObject("Low Bar", new Autonomous(2.0, 0.4));
-    	autoChooser.addObject("Rough Terrain", new Autonomous(2.0, 0.4));
-    	autoChooser.addObject("Rock Wall", new Autonomous(3.0, 0.5));
-    	autoChooser.addObject("Ramparts", new Autonomous(2.5, 0.5));
-    	autoChooser.addObject("Moat", new Autonomous(3.0, 0.5));
+    	autoChooser.addObject("Low Bar", new Autonomous(2.5, 0.7));
+    	autoChooser.addObject("Rough Terrain", new Autonomous(2.5, 0.7));
+    	autoChooser.addObject("Rock Wall", new Autonomous(3.0, 0.7));
+    	autoChooser.addObject("Ramparts", new Autonomous(3.0, 0.7));
+    	autoChooser.addObject("Moat", new Autonomous(3.0, 0.8));
     	SmartDashboard.putData("Autonomous Chooser", autoChooser);
     	
     }

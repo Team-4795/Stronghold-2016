@@ -40,6 +40,8 @@ public class OI {
     	JoystickButton rightTrigger = new JoystickButton(RIGHT_JOY, RobotMap.BUTTON_THROTTLE_ARM.value);
     	
     	new JoystickButton(MANIPULATOR, 3).whenPressed(new CalibrateArm());
+    	new JoystickButton(LEFT_JOY, 4).whileHeld(intakeIn);
+    	new JoystickButton(LEFT_JOY, 6).whileHeld(intakeOut);
     	
     	Trigger triggerPrimaryArmUp = new PrimaryArmUp(this);
     	Trigger triggerPrimaryArmDown = new PrimaryArmDown(this);
