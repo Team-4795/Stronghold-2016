@@ -7,7 +7,6 @@ import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -15,18 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-
-	Command autonomousCommand;
-	SendableChooser autoChooser;
-	
-	
-	
 	
     public static OI oi;
     public static Drivetrain drivetrain;
     public static ActiveIntake intake;
     public static Arm arm;
     
+    private SendableChooser autoChooser;
     private CameraServer cameraServer;
     
     @Override
@@ -41,9 +35,7 @@ public class Robot extends IterativeRobot {
             cameraServer = CameraServer.getInstance();
             cameraServer.setQuality(10);
             cameraServer.startAutomaticCapture("cam0");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
         
         autoChooser = new SendableChooser();
     	autoChooser.addDefault("Do Nothing", new Autonomous(0, 0));
@@ -53,14 +45,11 @@ public class Robot extends IterativeRobot {
     	autoChooser.addObject("Ramparts", new Autonomous(3.0, 0.7));
     	autoChooser.addObject("Moat", new Autonomous(3.0, 0.8));
     	SmartDashboard.putData("Autonomous Chooser", autoChooser);
-    	
     }
 
     @Override
     public void disabledInit() {
-        SmartDashboard.putNumber("Speed", 0.5);
         //Robot.drivetrain.calibrateGyroscope();
- 
     }
 
     @Override
@@ -70,10 +59,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-
-        
-        autonomousCommand = (CommandGroup) autoChooser.getSelected();
-        Scheduler.getInstance().add(autonomousCommand);
+        Scheduler.getInstance().add((CommandGroup) autoChooser.getSelected());
     }
 
     @Override

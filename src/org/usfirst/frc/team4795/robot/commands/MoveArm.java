@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4795.robot.commands;
 
-import org.usfirst.frc.team4795.robot.OI;
 import org.usfirst.frc.team4795.robot.Robot;
-import org.usfirst.frc.team4795.robot.RobotMap;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -21,13 +19,11 @@ public class MoveArm extends Command {
     protected void initialize() {
         Robot.arm.changeControlMode(TalonControlMode.Speed);
         Robot.arm.setPID(Arm.SPEED_P, Arm.SPEED_I, Arm.SPEED_D, Arm.SPEED_F);
+        Robot.arm.setRaw(speed);
     }
 
     @Override
-    protected void execute() {
-        // TODO make this command use speed control
-        Robot.arm.setRaw(speed);
-    }
+    protected void execute() {}
 
     @Override
     protected boolean isFinished() {

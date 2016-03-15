@@ -7,38 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraight extends Command {
     
     private final double time;
-    public static double P;
-    private long endTime;
     private final double speed;
+    private long endTime;
     
-    /*
-     * Low Bar
-     * Speed = 0.4
-     * Time = 2.0
-     * P = 0.05
-     * 
-     * Rock Wall
-     * Speed = 0.5
-     * Time = 3.0
-     * P = 0.05
-     * 
-     * Rough Terrain
-     * Speed = 0.4
-     * Time = 2.0
-     * P = 0.05
-     * 
-     * Ramparts
-     * Speed = 0.5
-     * Time = 2.5
-     * P = 0.05
-     * 
-     * Moat
-     * Speed = 0.5
-     * Time = 3.0
-     * P = 0.05
-     * 
-     * Nothing
-     */
 	public DriveStraight(double time, double speed) {
 		requires(Robot.drivetrain);
 		this.time = time;
@@ -52,8 +23,7 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void execute() {
-		double rate = Robot.drivetrain.gyroscope.getRate();
-		Robot.drivetrain.drive(speed, speed + (rate * P));
+		Robot.drivetrain.drive(speed, speed);
 	}
 
 	@Override
@@ -63,7 +33,7 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void end() {
-		Robot.drivetrain.drive(0,0); 
+		Robot.drivetrain.drive(0.0, 0.0); 
 	}
 
 	@Override

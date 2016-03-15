@@ -8,12 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualArm extends Command {
     
-    /*
-     * Optimal Constants
-     * P = 1.75
-     * I = 0.0005
-     * D = 20
-     */
     public ManualArm() {
         requires(Robot.arm);
     }
@@ -22,17 +16,16 @@ public class ManualArm extends Command {
     protected void initialize() {
         Robot.arm.setRampRate(54);
     }
-
-    @Override
+    
     /*
-     * Arm position: -1 	-> 0
-     * 				0.402	-> -1.283
+     * Arm position: -1.000 ->  0.000
+     * Setpoint:      0.402 -> -1.283
      */
+    @Override
     protected void execute() {
-        double throttle = (1.0 + Robot.oi.MANIPULATOR.getRawAxis(0)) * (-1.283)/(0.346+1.0);
-        SmartDashboard.putNumber("Setpoint", throttle);
-        Robot.arm.setPosRaw(throttle, Arm.POS_P, Arm.POS_I, Arm.POS_D);
-
+        double setpoint = ((1.0 + Robot.oi.getManipulatorLever()) * -1.283) / (0.346 + 1.0);
+        Robot.arm.setPosRaw(setpoint, Arm.POS_P, Arm.POS_I, Arm.POS_D);
+        SmartDashboard.putNumber("Setpoint", setpoint);
     }
 
     @Override

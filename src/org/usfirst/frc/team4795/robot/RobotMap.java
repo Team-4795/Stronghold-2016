@@ -12,21 +12,19 @@ public enum RobotMap {
     RIGHT_JOY(1),
     MANIPULATOR(2),
     // Left joystick mappings
-
+    L_INTAKE_IN(4),
+    L_INTAKE_OUT(6),
     // Right joystick mappings
-    PRIMARY_ARM_UP(3),
-    PRIMARY_ARM_DOWN(5),
-    BUTTON_THROTTLE_ARM(1),
+    R_ARM_UP(3),
+    R_ARM_DOWN(5),
+    R_OVERRIDE(1), // override the manipulator
+    // Manipulator mappings
+    M_ARM_DOWN(1),
+    M_ARM_UP(2),
+    M_INTAKE_IN(9),
+    M_INTAKE_OUT(10),
+    M_CALIBRATE(3);
     
-    SECONDARY_ARM_DOWN(1),
-    SECONDARY_ARM_UP(2),
-    SECONDARY_INTAKE_IN(9),
-    SECONDARY_INTAKE_OUT(10),
-    
-    PRIMARY(1),
-    SECONDARY(2);
-    
-
     public final int value;
 
     RobotMap(int value) {
