@@ -18,12 +18,12 @@ public class ManualArm extends Command {
     }
     
     /*
-     * Arm position: -1.000 ->  0.000
+     * Arm position: -0.672 ->  0.000
      * Setpoint:      0.402 -> -1.283
      */
     @Override
     protected void execute() {
-        double setpoint = ((1.0 + Robot.oi.getManipulatorLever()) * -1.283) / (0.346 + 1.0);
+        double setpoint = -0.96875 * Robot.oi.getManipulatorLever() - 0.651;
         Robot.arm.setPosRaw(setpoint, Arm.POS_P, Arm.POS_I, Arm.POS_D);
         SmartDashboard.putNumber("Setpoint", setpoint);
     }

@@ -30,7 +30,6 @@ public class OI {
     	Command cmdIntakeOut = new SpinIntake(-INTAKE_PWR);
     	Command cmdArmDown = new MoveArm(45);
     	Command cmdArmUp = new MoveArm(-45);
-    	Command cmdManualArm = new ManualArm();
     	Command cmdCalibrateArm = new CalibrateArm();
     	
         new JoystickButton(LEFT_JOY, RobotMap.L_INTAKE_IN.value).whileHeld(cmdIntakeIn);
@@ -38,7 +37,6 @@ public class OI {
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_IN.value).whileHeld(cmdIntakeIn);
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_OUT.value).whileHeld(cmdIntakeOut);
     	new JoystickButton(MANIPULATOR, RobotMap.M_CALIBRATE.value).whenPressed(cmdCalibrateArm);
-    	new Lever().whenActive(cmdManualArm);
     	
     	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_UP.value),
     	                 new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_UP.value),
@@ -46,6 +44,17 @@ public class OI {
     	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_DOWN.value),
     	                 new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_DOWN.value),
     	                 OVERRIDE).whileActive(cmdArmDown);
+    	
+    	
+    	
+    	
+    }
+    
+    public void init() {
+    	Command cmdManualArm = new ManualArm();
+    	new SharedButton(new Lever(),
+    	                 new Button() {public boolean get() {return false;}},
+    	                 OVERRIDE).whenActive(cmdManualArm);
     }
     
     public boolean isManipulatorDriver() {
@@ -83,11 +92,11 @@ public class OI {
     
     private class SharedButton extends Trigger {
         
-        private final Button primary;
-        private final Button secondary;
-        private final Button override;
+        private final Trigger primary;
+        private final Trigger secondary;
+        private final Trigger override;
         
-        public SharedButton(Button primary, Button secondary, Button override) {
+        public SharedButton(Trigger primary, Trigger secondary, Trigger override) {
             this.primary = primary;
             this.secondary = secondary;
             this.override = override;

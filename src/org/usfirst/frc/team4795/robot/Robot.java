@@ -30,6 +30,7 @@ public class Robot extends IterativeRobot {
         intake = new ActiveIntake();
         arm = new Arm();
         oi = new OI();
+        oi.init();
         
         try {
             cameraServer = CameraServer.getInstance();

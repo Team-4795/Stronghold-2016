@@ -11,9 +11,9 @@ public class Arm extends Subsystem {
     
     public static final int ENCODER_TICKS_PER_REV = 497;
     
-    public static final double HOLD_P = 30.0;
-    public static final double HOLD_I = 0.005;
-    public static final double HOLD_D = 10;
+    public static final double HOLD_P = 10;
+    public static final double HOLD_I = 0.0005;
+    public static final double HOLD_D = 20;
     
     public static final double SPEED_P = 1;
     public static final double SPEED_I = 0.01;
