@@ -4,6 +4,7 @@ import org.usfirst.frc.team4795.robot.commands.CalibrateArm;
 import org.usfirst.frc.team4795.robot.commands.ManualArm;
 import org.usfirst.frc.team4795.robot.commands.MoveArm;
 import org.usfirst.frc.team4795.robot.commands.SpinIntake;
+import org.usfirst.frc.team4795.robot.commands.ToggleCamera;
 import org.usfirst.frc.team4795.robot.triggers.Lever;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,9 +32,11 @@ public class OI {
     	Command cmdArmDown = new MoveArm(45);
     	Command cmdArmUp = new MoveArm(-45);
     	Command cmdCalibrateArm = new CalibrateArm();
+    	Command cmdToggleCamera = new ToggleCamera();
     	
         new JoystickButton(LEFT_JOY, RobotMap.L_INTAKE_IN.value).whileHeld(cmdIntakeIn);
         new JoystickButton(LEFT_JOY, RobotMap.L_INTAKE_OUT.value).whileHeld(cmdIntakeOut);
+        new JoystickButton(LEFT_JOY, RobotMap.L_TOGGLE_CAM.value).whenPressed(cmdToggleCamera);
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_IN.value).whileHeld(cmdIntakeIn);
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_OUT.value).whileHeld(cmdIntakeOut);
     	new JoystickButton(MANIPULATOR, RobotMap.M_CALIBRATE.value).whenPressed(cmdCalibrateArm);

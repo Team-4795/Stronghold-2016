@@ -5,7 +5,6 @@ import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,7 +20,6 @@ public class Robot extends IterativeRobot {
     public static Arm arm;
     
     private SendableChooser autoChooser;
-    private CameraServer cameraServer;
     
     @Override
     public void robotInit() {
@@ -32,11 +30,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         oi.init();
         
-        try {
-            cameraServer = CameraServer.getInstance();
-            cameraServer.setQuality(10);
-            cameraServer.startAutomaticCapture("cam0");
-        } catch (Exception ignored) {}
+        CameraSwitcher.init();
         
         autoChooser = new SendableChooser();
     	autoChooser.addDefault("Do Nothing", new Autonomous(0, 0));
@@ -76,6 +70,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Lever position", oi.MANIPULATOR.getRawAxis(0));
     	SmartDashboard.putNumber("Arm position", arm.getPosRaw());
     	
+    	CameraSwitcher.update();
         Scheduler.getInstance().run();
     }
 
