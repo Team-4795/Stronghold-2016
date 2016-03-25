@@ -14,6 +14,7 @@ public enum RobotMap {
     // Left joystick mappings
     L_INTAKE_IN(4),
     L_INTAKE_OUT(6),
+    L_TOGGLE_CAM(5),
     // Right joystick mappings
     R_ARM_UP(3),
     R_ARM_DOWN(5),
