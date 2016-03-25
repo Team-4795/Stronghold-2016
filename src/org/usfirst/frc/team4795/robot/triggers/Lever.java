@@ -5,7 +5,7 @@ import org.usfirst.frc.team4795.robot.Robot;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
-public class Lever extends Trigger {
+public class Lever extends Trigger  {
     
 	private double lastPosition;
 	private double currentPosition;
@@ -21,6 +21,10 @@ public class Lever extends Trigger {
     	    return true;
     	}
     	return false;
+    }
+    
+    public void reset() {
+    	lastPosition = currentPosition;
     }
     
 }

@@ -1,9 +1,12 @@
 package org.usfirst.frc.team4795.robot;
 
+import java.text.DecimalFormat;
+
 import org.usfirst.frc.team4795.robot.commands.Autonomous;
 import org.usfirst.frc.team4795.robot.subsystems.ActiveIntake;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team4795.robot.subsystems.IMU;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -23,6 +26,10 @@ public class Robot extends IterativeRobot {
     private SendableChooser autoChooser;
     private CameraServer cameraServer;
     
+    public static IMU imu = IMU.getInstance();
+    private DecimalFormat f = new DecimalFormat("+000.000;-000.000");
+	private double[] pos = new double[3]; // [x,y,z] position data
+	private BNO055.CalData cal;
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
@@ -75,6 +82,22 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	SmartDashboard.putNumber("Lever position", oi.MANIPULATOR.getRawAxis(0));
     	SmartDashboard.putNumber("Arm position", arm.getPosRaw());
+    	if(arm.getForwardLimit()) {
+    		arm.zeroPos();
+    		arm.motor.clearIAccum();
+    	}
+    	
+    	if(imu.isInitialized()) {
+    		pos = imu.getVector();
+    		cal = imu.getCalibration();
+    		SmartDashboard.putNumber("Accel", cal.accel);
+    		SmartDashboard.putNumber("Gyro", cal.gyro);
+    		SmartDashboard.putNumber("Mag", cal.mag);
+    		SmartDashboard.putNumber("X", pos[0]);
+    		SmartDashboard.putNumber("Y", pos[1]);
+    		SmartDashboard.putNumber("Z", pos[2]);
+    	}
+    	
     	
         Scheduler.getInstance().run();
     }

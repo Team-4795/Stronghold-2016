@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4795.robot.commands;
 
+import java.text.DecimalFormat;
+
+import org.usfirst.frc.team4795.robot.BNO055;
 import org.usfirst.frc.team4795.robot.Robot;
 import org.usfirst.frc.team4795.robot.subsystems.Arm;
 
@@ -8,6 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualArm extends Command {
     
+	private DecimalFormat format = new DecimalFormat("+000.000;-000.000");
+	private double[] pos = new double[3]; // [x,y,z] position data
+	private BNO055.CalData cal;
+	
     public ManualArm() {
         requires(Robot.arm);
     }

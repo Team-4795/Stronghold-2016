@@ -22,6 +22,8 @@ public class OI {
     public final Joystick RIGHT_JOY = new Joystick(RobotMap.RIGHT_JOY.value);
     public final Joystick MANIPULATOR = new Joystick(RobotMap.MANIPULATOR.value);
     
+
+    
     private final JoystickButton OVERRIDE = 
             new JoystickButton(RIGHT_JOY, RobotMap.R_OVERRIDE.value);
     
@@ -38,6 +40,7 @@ public class OI {
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_OUT.value).whileHeld(cmdIntakeOut);
     	new JoystickButton(MANIPULATOR, RobotMap.M_CALIBRATE.value).whenPressed(cmdCalibrateArm);
     	
+    	
     	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_UP.value),
     	                 new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_UP.value),
     	                 OVERRIDE).whileActive(cmdArmUp);
@@ -47,13 +50,19 @@ public class OI {
     	
     	
     	
+
     	
     }
     
     public void init() {
     	Command cmdManualArm = new ManualArm();
-    	new SharedButton(new Lever(),
-    	                 new Button() {public boolean get() {return false;}},
+    	Lever lever = new Lever();
+    	new SharedButton(lever,
+    	                 new Button() {public boolean get() {
+    	                	 cmdManualArm.cancel();
+    	                	 lever.reset();
+    	                	 return false;
+    	                 }},
     	                 OVERRIDE).whenActive(cmdManualArm);
     }
     
