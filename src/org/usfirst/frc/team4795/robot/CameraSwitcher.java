@@ -13,38 +13,45 @@ public class CameraSwitcher {
     private static AxisCamera axisCamera;
     private static USBCamera usbCamera;
     private static Image image;
-    private static boolean selector = false;
+    private static boolean selector = true;
     
     public static void init() {
-        server = CameraServer.getInstance();
-        server.setQuality(50);
-        axisCamera = new AxisCamera("10.47.95.89");
-        axisCamera.writeExposurePriority(0);
-        usbCamera = new USBCamera("cam1");
-        usbCamera.openCamera();
-        usbCamera.setFPS(15);
-        usbCamera.updateSettings();
-        image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-        
-        usbCamera.startCapture();
+    	try {
+    		server = CameraServer.getInstance();
+    		server.setQuality(50);
+    		axisCamera = new AxisCamera("10.47.95.11");
+    		axisCamera.writeExposurePriority(0);
+    		
+    		usbCamera = new USBCamera("cam0");
+    		usbCamera.openCamera();
+    		usbCamera.setFPS(15);
+    		usbCamera.updateSettings();
+    		image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+    		
+    		//usbCamera.startCapture();
+    	} catch(Exception ignored) {}
     }
     
     public static void update() {
-        if(selector) {
-            axisCamera.getImage(image);
-        } else {
-            usbCamera.getImage(image);
-        }
-        server.setImage(image);
+    	try {
+    		if(selector) {
+    			axisCamera.getImage(image);
+    		} else {
+    			usbCamera.getImage(image);
+    		}
+    		server.setImage(image);
+    	} catch(Exception ignored) {}
     }
     
     public static void toggle() {
-        if(selector) {
-            usbCamera.startCapture();
-        } else {
-            usbCamera.stopCapture();
-        }
-        selector = !selector;
+    	try {
+    		if(selector) {
+    			usbCamera.startCapture();
+    		} else {
+    			usbCamera.stopCapture();
+    		}
+    		selector = !selector;
+    	} catch(Exception ignored) {}
     }
     
 }

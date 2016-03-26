@@ -9,21 +9,18 @@ public class ToggleCamera extends Command {
     private boolean toggled = false;
 
     @Override
-    protected void initialize() {}
+    protected void initialize() {
+        CameraSwitcher.toggle();
+
+    }
 
     @Override
     protected void execute() {
-        if(!toggled) {
-            CameraSwitcher.toggle();
-            toggled = true;
-        }
+        
     }
 
-    @Override
-    protected boolean isFinished() {
-        return toggled;
-    }
-
+    
+    
     @Override
     protected void end() {}
 
@@ -31,5 +28,11 @@ public class ToggleCamera extends Command {
     protected void interrupted() {
         end();
     }
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 }
