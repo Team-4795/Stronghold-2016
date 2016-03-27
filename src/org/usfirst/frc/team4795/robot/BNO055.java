@@ -306,11 +306,25 @@ public class BNO055 {
 		public byte bl_rev;
 	}
 
-	public class CalData {
+	public class CalStatus {
 		public byte sys;
 		public byte gyro;
 		public byte accel;
 		public byte mag;
+	}
+	
+	public class CalData {
+	    public short mag_radius;
+	    public short acc_radius;
+	    public short gyro_offset_x;
+	    public short gyro_offset_y;
+	    public short gyro_offset_z;
+	    public short mag_offset_x;
+	    public short mag_offset_y;
+	    public short mag_offset_z;
+	    public short acc_offset_x;
+	    public short acc_offset_y;
+	    public short acc_offset_z;
 	}
 
 	public enum vector_type_t {
@@ -662,8 +676,8 @@ public class BNO055 {
 	 * @return each value will be set to 0 if not calibrated, 3 if fully
 	 *   calibrated.
 	 */
-	public CalData getCalibration() {
-		CalData data = new CalData();
+	public CalStatus getCalibrationStatus() {
+		CalStatus data = new CalStatus();
 		int rawCalData = read8(reg_t.BNO055_CALIB_STAT_ADDR);
 
 		data.sys = (byte) ((rawCalData >> 6) & 0x03);
@@ -672,6 +686,58 @@ public class BNO055 {
 		data.mag = (byte) (rawCalData & 0x03);
 
 		return data;
+	}
+	
+	public CalData getCalibrationData() {
+	    CalData data = new CalData();
+	    data.mag_radius = (short) (read8(reg_t.MAG_RADIUS_LSB_ADDR) 
+	                            | (read8(reg_t.MAG_RADIUS_MSB_ADDR) << 8));
+	    data.acc_radius = (short) (read8(reg_t.ACCEL_RADIUS_LSB_ADDR)
+	                            | (read8(reg_t.ACCEL_RADIUS_MSB_ADDR) << 8));
+	    data.gyro_offset_z = (short) (read8(reg_t.GYRO_OFFSET_Z_LSB_ADDR)
+	                               | (read8(reg_t.GYRO_OFFSET_Z_MSB_ADDR) << 8));
+	    data.gyro_offset_y = (short) (read8(reg_t.GYRO_OFFSET_Y_LSB_ADDR)
+                                   | (read8(reg_t.GYRO_OFFSET_Y_MSB_ADDR) << 8));
+	    data.gyro_offset_x = (short) (read8(reg_t.GYRO_OFFSET_X_LSB_ADDR)
+                                   | (read8(reg_t.GYRO_OFFSET_X_MSB_ADDR) << 8));
+	    data.mag_offset_z = (short) (read8(reg_t.MAG_OFFSET_Z_LSB_ADDR)
+                                  | (read8(reg_t.MAG_OFFSET_Z_MSB_ADDR) << 8));
+	    data.mag_offset_y = (short) (read8(reg_t.MAG_OFFSET_Y_LSB_ADDR)
+                                  | (read8(reg_t.MAG_OFFSET_Y_MSB_ADDR) << 8));
+	    data.mag_offset_x = (short) (read8(reg_t.MAG_OFFSET_X_LSB_ADDR)
+                                  | (read8(reg_t.MAG_OFFSET_X_MSB_ADDR) << 8));
+	    data.acc_offset_z = (short) (read8(reg_t.ACCEL_OFFSET_Z_LSB_ADDR)
+                                  | (read8(reg_t.ACCEL_OFFSET_Z_MSB_ADDR) << 8));
+	    data.acc_offset_y = (short) (read8(reg_t.ACCEL_OFFSET_Y_LSB_ADDR)
+                                  | (read8(reg_t.ACCEL_OFFSET_Y_MSB_ADDR) << 8));
+	    data.acc_offset_x = (short) (read8(reg_t.ACCEL_OFFSET_X_LSB_ADDR)
+                                  | (read8(reg_t.ACCEL_OFFSET_X_MSB_ADDR) << 8));
+	    return data;
+	}
+	
+	public void setCalibrationData(CalData data) {
+	    write8(reg_t.MAG_RADIUS_LSB_ADDR, (byte) data.mag_radius);
+	    write8(reg_t.MAG_RADIUS_MSB_ADDR, (byte) (data.mag_radius >> 8));
+	    write8(reg_t.ACCEL_RADIUS_LSB_ADDR, (byte) data.acc_radius);
+        write8(reg_t.ACCEL_RADIUS_MSB_ADDR, (byte) (data.acc_radius >> 8));
+        write8(reg_t.GYRO_OFFSET_Z_LSB_ADDR, (byte) data.gyro_offset_z);
+        write8(reg_t.GYRO_OFFSET_Z_MSB_ADDR, (byte) (data.gyro_offset_z >> 8));
+        write8(reg_t.GYRO_OFFSET_Y_LSB_ADDR, (byte) data.gyro_offset_y);
+        write8(reg_t.GYRO_OFFSET_Y_MSB_ADDR, (byte) (data.gyro_offset_y >> 8));
+        write8(reg_t.GYRO_OFFSET_X_LSB_ADDR, (byte) data.gyro_offset_x);
+        write8(reg_t.GYRO_OFFSET_X_MSB_ADDR, (byte) (data.gyro_offset_x >> 8));
+        write8(reg_t.MAG_OFFSET_Z_LSB_ADDR, (byte) data.mag_offset_z);
+        write8(reg_t.MAG_OFFSET_Z_MSB_ADDR, (byte) (data.mag_offset_z >> 8));
+        write8(reg_t.MAG_OFFSET_Y_LSB_ADDR, (byte) data.mag_offset_y);
+        write8(reg_t.MAG_OFFSET_Y_MSB_ADDR, (byte) (data.mag_offset_y >> 8));
+        write8(reg_t.MAG_OFFSET_X_LSB_ADDR, (byte) data.mag_offset_x);
+        write8(reg_t.MAG_OFFSET_X_MSB_ADDR, (byte) (data.mag_offset_x >> 8));
+        write8(reg_t.ACCEL_OFFSET_Z_LSB_ADDR, (byte) data.acc_offset_z);
+        write8(reg_t.ACCEL_OFFSET_Z_MSB_ADDR, (byte) (data.acc_offset_z >> 8));
+        write8(reg_t.ACCEL_OFFSET_Y_LSB_ADDR, (byte) data.acc_offset_y);
+        write8(reg_t.ACCEL_OFFSET_Y_MSB_ADDR, (byte) (data.acc_offset_y >> 8));
+        write8(reg_t.ACCEL_OFFSET_X_LSB_ADDR, (byte) data.acc_offset_x);
+        write8(reg_t.ACCEL_OFFSET_X_MSB_ADDR, (byte) (data.acc_offset_x >> 8));
 	}
 
 	/**
@@ -703,7 +769,7 @@ public class BNO055 {
 			{ true,  true,  true}  // OPERATION_MODE_NDOF
 		};
 
-		CalData data = getCalibration();
+		CalStatus data = getCalibrationStatus();
 		
 		if(sensorModeMap[_mode][0]) //Accelerometer used
 			retVal = retVal && (data.accel >= 3);
