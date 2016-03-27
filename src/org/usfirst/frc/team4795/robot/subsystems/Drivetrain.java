@@ -22,12 +22,16 @@ public class Drivetrain extends Subsystem implements PIDOutput {
     private final CANTalon leftMotor2;
     private final CANTalon rightMotor1;
     private final CANTalon rightMotor2;
+    
+    
 
     public final ADXRS450_Gyro gyroscope;
     private PIDController gyroControl;
 
     private boolean closedLoopMode = false;
     private boolean gyroControlMode = false;
+    
+    private boolean brakeMode = false;
 
     public Drivetrain() {
         gyroscope = new ADXRS450_Gyro() {
@@ -163,6 +167,19 @@ public class Drivetrain extends Subsystem implements PIDOutput {
         gyroControlMode = true;
     }
 
+    public void toggleBrakeMode() {
+    	brakeMode = !brakeMode;
+    	leftMotor1.enableBrakeMode(brakeMode);
+    	leftMotor2.enableBrakeMode(brakeMode);
+    	rightMotor1.enableBrakeMode(brakeMode);
+    	rightMotor2.enableBrakeMode(brakeMode);
+    	
+    		
+    }
+    public double getLeftCurrent() {
+    	return leftMotor1.getOutputCurrent();
+    }
+    
     public double getLeftError() {
         return leftMotor1.getError();
     }

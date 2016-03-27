@@ -9,8 +9,10 @@ import org.usfirst.frc.team4795.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4795.robot.subsystems.IMU;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,10 +26,12 @@ public class Robot extends IterativeRobot {
     
     private SendableChooser autoChooser;
     
+    private double startEnergy = 0;
     public static IMU imu = IMU.getInstance();
     private DecimalFormat f = new DecimalFormat("+000.000;-000.000");
 	private double[] pos = new double[3]; // [x,y,z] position data
 	private BNO055.CalData cal;
+	private PowerDistributionPanel PDP = new PowerDistributionPanel();
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
@@ -51,6 +55,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
+    	startEnergy = PDP.getTotalEnergy();
         //Robot.drivetrain.calibrateGyroscope();
     }
 
@@ -90,7 +95,10 @@ public class Robot extends IterativeRobot {
     		SmartDashboard.putNumber("X", pos[0]);
     		SmartDashboard.putNumber("Y", pos[1]);
     		SmartDashboard.putNumber("Z", pos[2]);
+    		
     	}
+    	
+    	SmartDashboard.putNumber("Power", PDP.getTotalPower());
     	
     	
     	CameraSwitcher.update();

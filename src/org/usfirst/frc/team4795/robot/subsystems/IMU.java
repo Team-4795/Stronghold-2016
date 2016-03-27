@@ -21,6 +21,7 @@ public class IMU extends Subsystem {
     	
     	imu = BNO055.getInstance(BNO055.opmode_t.OPERATION_MODE_NDOF,
 				BNO055.vector_type_t.VECTOR_EULER);
+    	
     }
     
 	/**
@@ -38,18 +39,7 @@ public class IMU extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
-    
-    /**
-     * Set the speed of the drivetrain motor controllers.
-     * 
-     * @param leftSpeed speed to set the left side of the drivetrain (1.0 to -1.0)
-     * @param rightSpeed speed to set the right side of the drivetrain (1.0 to -1.0)
-     */
-    public void set(double leftSpeed, double rightSpeed) {
-    	left.set(leftSpeed);
-    	right.set(rightSpeed);
-    }
-    
+   
     /**
 	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
 	 *   sensor clockwise two full rotations will return a value of 720 degrees.
