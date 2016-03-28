@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.BNO055;
+import org.usfirst.frc.team4795.robot.BNO055.RotRate;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -63,6 +64,10 @@ public class IMU extends Subsystem {
 	 */
     public double[] getVector() {
     	return imu.getVector();
+    }
+    
+    public RotRate getDubya() {
+    	return imu.getDubya();
     }
     
 	/**

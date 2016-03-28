@@ -328,9 +328,9 @@ public class BNO055 {
 	}
 	
 	public class RotRate {
-	    public short rot_x;
-	    public short rot_y;
-	    public short rot_z;
+	    public double rot_x;
+	    public double rot_y;
+	    public double rot_z;
 	}
 
 	public enum vector_type_t {
@@ -832,12 +832,12 @@ public class BNO055 {
 	
 	public RotRate getDubya() {
 	    RotRate rotRate = new RotRate();
-	    rotRate.rot_z = (short) (read8(reg_t.BNO055_GYRO_DATA_Z_LSB_ADDR)
-	                          | (read8(reg_t.BNO055_GYRO_DATA_Z_MSB_ADDR) << 8));
-	    rotRate.rot_y = (short) (read8(reg_t.BNO055_GYRO_DATA_Y_LSB_ADDR)
-                              | (read8(reg_t.BNO055_GYRO_DATA_Y_MSB_ADDR) << 8));
-	    rotRate.rot_x = (short) (read8(reg_t.BNO055_GYRO_DATA_X_LSB_ADDR)
-                              | (read8(reg_t.BNO055_GYRO_DATA_X_MSB_ADDR) << 8));
+	    rotRate.rot_z = (double) (read8(reg_t.BNO055_GYRO_DATA_Z_LSB_ADDR)
+	                          | (read8(reg_t.BNO055_GYRO_DATA_Z_MSB_ADDR) << 8)) / 16.0;
+	    rotRate.rot_y = (double) (read8(reg_t.BNO055_GYRO_DATA_Y_LSB_ADDR)
+                              | (read8(reg_t.BNO055_GYRO_DATA_Y_MSB_ADDR) << 8)) / 16.0;
+	    rotRate.rot_x = (double) (read8(reg_t.BNO055_GYRO_DATA_X_LSB_ADDR)
+                              | (read8(reg_t.BNO055_GYRO_DATA_X_MSB_ADDR) << 8)) / 16.0;
 	    return rotRate;
 	}
 	
