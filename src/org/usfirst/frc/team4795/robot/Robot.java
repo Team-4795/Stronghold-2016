@@ -26,11 +26,9 @@ public class Robot extends IterativeRobot {
     
     private SendableChooser autoChooser;
     
-    private double startEnergy = 0;
     public static IMU imu = IMU.getInstance();
-    private DecimalFormat f = new DecimalFormat("+000.000;-000.000");
 	private double[] pos = new double[3]; // [x,y,z] position data
-	private BNO055.CalData cal;
+	private BNO055.CalStatus cal;
 	private PowerDistributionPanel PDP = new PowerDistributionPanel();
     @Override
     public void robotInit() {
@@ -55,7 +53,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-    	startEnergy = PDP.getTotalEnergy();
         //Robot.drivetrain.calibrateGyroscope();
     }
 
@@ -88,7 +85,7 @@ public class Robot extends IterativeRobot {
     	
     	if(imu.isInitialized()) {
     		pos = imu.getVector();
-    		cal = imu.getCalibration();
+    		cal = imu.getCalibrationStatus();
     		SmartDashboard.putNumber("Accel", cal.accel);
     		SmartDashboard.putNumber("Gyro", cal.gyro);
     		SmartDashboard.putNumber("Mag", cal.mag);
