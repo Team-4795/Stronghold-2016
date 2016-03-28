@@ -84,8 +84,8 @@ public class IMU extends Subsystem {
 	 * @return each value will be set to 0 if not calibrated, 3 if fully
 	 *   calibrated.
 	 */
-	public BNO055.CalData getCalibration() {
-		return imu.getCalibration();
+	public BNO055.CalStatus getCalibrationStatus() {
+		return imu.getCalibrationStatus();
 	}
 	
 	/**
