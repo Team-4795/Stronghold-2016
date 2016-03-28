@@ -326,6 +326,12 @@ public class BNO055 {
 	    public short acc_offset_y;
 	    public short acc_offset_z;
 	}
+	
+	public class RotRate {
+	    public short rot_x;
+	    public short rot_y;
+	    public short rot_z;
+	}
 
 	public enum vector_type_t {
 		VECTOR_ACCELEROMETER (reg_t.BNO055_ACCEL_DATA_X_LSB_ADDR.getVal()),
@@ -822,6 +828,17 @@ public class BNO055 {
 	 */
 	public double getHeading() {
 		return xyz[0] + turns * 360;
+	}
+	
+	public RotRate getDubya() {
+	    RotRate rotRate = new RotRate();
+	    rotRate.rot_z = (short) (read8(reg_t.BNO055_GYRO_DATA_Z_LSB_ADDR)
+	                          | (read8(reg_t.BNO055_GYRO_DATA_Z_MSB_ADDR) << 8));
+	    rotRate.rot_y = (short) (read8(reg_t.BNO055_GYRO_DATA_Y_LSB_ADDR)
+                              | (read8(reg_t.BNO055_GYRO_DATA_Y_MSB_ADDR) << 8));
+	    rotRate.rot_x = (short) (read8(reg_t.BNO055_GYRO_DATA_X_LSB_ADDR)
+                              | (read8(reg_t.BNO055_GYRO_DATA_X_MSB_ADDR) << 8));
+	    return rotRate;
 	}
 	
 	/**
