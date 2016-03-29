@@ -23,7 +23,8 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.drive(speed, speed);
+		double rotZ = Robot.imu.getDubya()[2];
+		Robot.drivetrain.drive(speed, speed - (rotZ * 0.03));
 	}
 
 	@Override
