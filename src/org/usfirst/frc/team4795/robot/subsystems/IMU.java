@@ -1,12 +1,15 @@
 package org.usfirst.frc.team4795.robot.subsystems;
 
 import org.usfirst.frc.team4795.robot.BNO055;
+
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
-public class IMU extends Subsystem {
+public class IMU extends Subsystem implements PIDSource {
     private static IMU instance = null; 
 	private static BNO055 imu;
     
@@ -98,5 +101,28 @@ public class IMU extends Subsystem {
 	 */
 	public boolean isCalibrated() {
 		return imu.isCalibrated();
+	}
+	
+	private PIDSourceType sourceType = PIDSourceType.kRate;
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		// TODO Auto-generated method stub
+		sourceType = pidSource;
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return sourceType;
+	}
+
+	@Override
+	/**
+	 * Return rotation rate in Z in units selected on IMU
+	 */
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return imu.getDubya()[2];
 	}
 }

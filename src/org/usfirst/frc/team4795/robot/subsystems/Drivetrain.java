@@ -135,6 +135,7 @@ public class Drivetrain extends Subsystem implements PIDOutput {
         rightMotor1.pidWrite(output);
         rightMotor2.pidWrite(output);
     }
+    
 
     public void setFPID(double F, double P, double I, double D) {
         leftMotor1.setF(F);
@@ -173,9 +174,15 @@ public class Drivetrain extends Subsystem implements PIDOutput {
     	leftMotor2.enableBrakeMode(brakeMode);
     	rightMotor1.enableBrakeMode(brakeMode);
     	rightMotor2.enableBrakeMode(brakeMode);
-    	
-    		
     }
+    
+    public void setRampRate(double rampRate) {
+    	leftMotor1.setVoltageRampRate(rampRate);
+    	leftMotor2.setVoltageRampRate(rampRate);
+    	rightMotor1.setVoltageRampRate(rampRate);
+    	rightMotor2.setVoltageRampRate(rampRate);
+    }
+    
     public double getLeftCurrent() {
     	return leftMotor1.getOutputCurrent();
     }

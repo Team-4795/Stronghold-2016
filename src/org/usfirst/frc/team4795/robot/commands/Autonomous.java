@@ -19,6 +19,8 @@ public class Autonomous extends CommandGroup {
     	requires(Robot.arm);
     	
     	addSequential(new CalibrateArm());
-    	addSequential(new DriveStraight(time, speed));
+    	addSequential(new DriveStraight(time, speed), 5000);
+
+    	addSequential(new DriveStraight(time, -speed), 5000);
     }
 }
