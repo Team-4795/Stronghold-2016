@@ -14,13 +14,14 @@ public class Autonomous extends CommandGroup {
      * Ramparts:      0.5 2.5
      * Moat:          0.5 3.0
      */
-    public Autonomous(double time, double speed) {
+    public Autonomous(double time, double speed, boolean driveBackward) {
     	requires(Robot.drivetrain);
     	requires(Robot.arm);
     	
     	addSequential(new CalibrateArm());
     	addSequential(new DriveStraight(time, speed), 5000);
-
-    	addSequential(new DriveStraight(time, -speed), 5000);
+    	if(driveBackward) {
+    		addSequential(new DriveStraight(time, -speed), 5000);
+    	}
     }
 }

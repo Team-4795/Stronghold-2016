@@ -40,12 +40,12 @@ public class Robot extends IterativeRobot {
         CameraSwitcher.init();
         
         autoChooser = new SendableChooser();
-    	autoChooser.addDefault("Do Nothing", new Autonomous(0, 0));
-    	autoChooser.addObject("Low Bar", new Autonomous(2.5, 0.3));
-    	autoChooser.addObject("Rough Terrain", new Autonomous(2.5, 0.7));
-    	autoChooser.addObject("Rock Wall", new Autonomous(3.0, 0.7));
-    	autoChooser.addObject("Ramparts", new Autonomous(3.0, 0.7));
-    	autoChooser.addObject("Moat", new Autonomous(3.0, 0.8));
+    	autoChooser.addDefault("Do Nothing", new Autonomous(0, 0, false));
+    	autoChooser.addObject("Low Bar", new Autonomous(2.5, 0.3, true));
+    	autoChooser.addObject("Rough Terrain", new Autonomous(2.5, 0.7, false));
+    	autoChooser.addObject("Rock Wall", new Autonomous(3.0, 0.7, false));
+    	autoChooser.addObject("Ramparts", new Autonomous(3.0, 0.7, false));
+    	autoChooser.addObject("Moat", new Autonomous(3.0, 0.8, false));
     	SmartDashboard.putData("Autonomous Chooser", autoChooser);
     }
 
