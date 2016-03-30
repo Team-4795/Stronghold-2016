@@ -6,25 +6,25 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CalibrateArm extends Command {
-	
-    private boolean finished;
-    
+
+	private boolean finished;
+
 	public CalibrateArm() {
 		requires(Robot.arm);
 	}
-	
+
 	@Override
 	protected void initialize() {
-	    Robot.arm.changeControlMode(TalonControlMode.PercentVbus);
-        Robot.arm.setRaw(0.5);
+		Robot.arm.changeControlMode(TalonControlMode.PercentVbus);
+		Robot.arm.setRaw(0.5);
 	}
 
 	@Override
 	protected void execute() {
-	    if(Robot.arm.getForwardLimit()) {
-	        Robot.arm.zeroPos();
-	        finished = true;
-	    }
+		if (Robot.arm.getForwardLimit()) {
+			Robot.arm.zeroPos();
+			finished = true;
+		}
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CalibrateArm extends Command {
 
 	@Override
 	protected void interrupted() {
-	    end();
+		end();
 	}
 
 }
