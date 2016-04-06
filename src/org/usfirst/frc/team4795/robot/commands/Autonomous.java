@@ -18,10 +18,12 @@ public class Autonomous extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.arm);
     	
-    	addSequential(new CalibrateArm());
     	addSequential(new DriveStraight(time, speed), 5000);
     	if(driveBackward) {
     		addSequential(new DriveStraight(time, -speed), 5000);
     	}
+    	addSequential(new CalibrateArm());
+
     }
+
 }

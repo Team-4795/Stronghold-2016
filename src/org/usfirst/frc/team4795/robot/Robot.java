@@ -40,12 +40,12 @@ public class Robot extends IterativeRobot {
 		CameraSwitcher.init();
 
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Do Nothing", new Autonomous(0, 0, false));
-		autoChooser.addObject("Low Bar", new Autonomous(2.5, 0.3, true));
+		autoChooser.addDefault("Moat", new Autonomous(2.5, 0.8, false));
+		autoChooser.addObject("Low Bar", new Autonomous(2.5, 0.4, false));
 		autoChooser.addObject("Rough Terrain", new Autonomous(2.5, 0.7, false));
 		autoChooser.addObject("Rock Wall", new Autonomous(3.0, 0.7, false));
 		autoChooser.addObject("Ramparts", new Autonomous(3.0, 0.7, false));
-		autoChooser.addObject("Moat", new Autonomous(3.0, 0.8, false));
+		autoChooser.addObject("Do nothing", new Autonomous(2.5, 0.8, false));
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 	}
 
@@ -61,11 +61,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		Scheduler.getInstance().add((CommandGroup) autoChooser.getSelected());
+		Scheduler.getInstance().add(new Autonomous(2.5, 0.8, false));
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		CameraSwitcher.update();
 		Scheduler.getInstance().run();
 	}
 

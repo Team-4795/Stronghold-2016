@@ -32,8 +32,6 @@ public class OI {
     public OI() {
     	Command cmdIntakeIn = new SpinIntake(INTAKE_PWR);
     	Command cmdIntakeOut = new SpinIntake(-INTAKE_PWR);
-    	Command cmdArmDown = new MoveArm(45);
-    	Command cmdArmUp = new MoveArm(-45);
     	Command cmdCalibrateArm = new CalibrateArm();
     	Command cmdToggleCamera = new ToggleCamera();
     	
@@ -45,19 +43,6 @@ public class OI {
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_IN.value).whileHeld(cmdIntakeIn);
     	new JoystickButton(MANIPULATOR, RobotMap.M_INTAKE_OUT.value).whileHeld(cmdIntakeOut);
     	new JoystickButton(MANIPULATOR, RobotMap.M_CALIBRATE.value).whenPressed(cmdCalibrateArm);
-    	
-    	
-    	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_UP.value),
-    	                 new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_UP.value),
-    	                 OVERRIDE).whileActive(cmdArmUp);
-    	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_DOWN.value),
-    	                 new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_DOWN.value),
-    	                 OVERRIDE).whileActive(cmdArmDown);
-    	
-    	
-    	
-
-    	
     }
     
     public void init() {
@@ -70,6 +55,15 @@ public class OI {
     	                	 return false;
     	                 }},
     	                 OVERRIDE).whenActive(cmdManualArm);
+    	
+    	Command cmdArmDown = new MoveArm(45);
+    	Command cmdArmUp = new MoveArm(-45);
+    	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_UP.value),
+                new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_UP.value),
+                OVERRIDE).whileActive(cmdArmUp);
+    	new SharedButton(new JoystickButton(MANIPULATOR, RobotMap.M_ARM_DOWN.value),
+                new JoystickButton(RIGHT_JOY, RobotMap.R_ARM_DOWN.value),
+                OVERRIDE).whileActive(cmdArmDown);
     }
     
     public boolean isManipulatorDriver() {

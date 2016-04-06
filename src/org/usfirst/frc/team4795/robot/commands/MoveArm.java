@@ -12,7 +12,7 @@ public class MoveArm extends Command {
 
 	public MoveArm(double speed) {
 		requires(Robot.arm);
-		this.speed = speed;
+		this.speed = Robot.oi.isManipulatorDriver() ? speed : speed * 1.5;
 	}
 
 	@Override
