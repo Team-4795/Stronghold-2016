@@ -202,7 +202,7 @@ public class Drivetrain extends Subsystem implements PIDOutput {
 	}
 
 	public double getRightEncoderPos() {
-		return rightMotor1.getEncPosition();
+		return rightMotor1.getPosition();
 	}
 
 	public double getLeftEncoderVel() {

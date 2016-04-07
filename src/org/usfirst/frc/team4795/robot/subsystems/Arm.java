@@ -48,7 +48,7 @@ public class Arm extends Subsystem {
     }
     
     public void setPID(double P, double I, double D, double F) {
-    	motor.setPID(P, I, D);
+    	setPID(P, I, D);
     	motor.setF(F);
     }
     
@@ -74,7 +74,7 @@ public class Arm extends Subsystem {
     
     public void setPosRaw(double angle, double P, double I, double D) {
         changeControlMode(TalonControlMode.Position);
-        motor.setPID(P, I, D);
+        setPID(P, I, D);
         motor.set(angle);
     }
     

@@ -96,6 +96,8 @@ public class Robot extends IterativeRobot {
 		}
 
 		SmartDashboard.putNumber("Power", PDP.getTotalPower());
+		
+		SmartDashboard.putNumber("Arm position (CUI)", Robot.drivetrain.getRightEncoderPos());
 
 		CameraSwitcher.update();
 		Scheduler.getInstance().run();
